@@ -4,14 +4,14 @@ from parameters import Parameters
 from classify_articles import Classify
 from config import SaveAndLoad
 
-
 class Search:
 
     def __init__(self):
         self.__params = Parameters()
         self.__fetcher = PubMedFetcher()
         self.__classifier = Classify()
-        self.__config_sl = SaveAndLoad()
+        self.__saveandload = SaveAndLoad()
+        self.__config_data = self.__saveandload.load_config_file()
         
     def __search_pubmed(self, query):
         pmids = self.__fetcher.pmids_for_query(
@@ -37,10 +37,24 @@ class Search:
         __selected = self.__fetch_articles(__pmids, query)
         return __selected, __n_found
     
-    def is_searching_day(self):
-        if self.__params.day_week == 2:
-            self.__config_sl.save_config_file(self.__config_sl.config_data, self.__config_sl.file_path)
+    def __is_searching_day(self):
+        if self.__params.day_week == self.__config_data['programmed_search']['day_of_search']:
             return True
+        
+    def __reset_programmed_search(self):
+        self.__config_data['programmed_search']['programmed_search_done'] = False
+        self.__saveandload.save_config_file(self.__config_data)
+        
+    def run_programmed_search(self):
+        if self.__is_searching_day():
+            if self.__config_data['programmed_search']['programmed_search_done'] == False:
+                self.__config_data['programmed_search']['programmed_search_done'] = True
+                self.__saveandload.save_config_file(self.__config_data)
+                return True
+        else:
+            self.__reset_programmed_search()
+    
+    
             
 
 

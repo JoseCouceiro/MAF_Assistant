@@ -11,8 +11,7 @@ class Display():
         self.__transl = Translate()
         self.__saveandload = SaveAndLoad()
         self.tab1, self.tab2, self.tab3, self.tab4 = st.tabs(['Search results', 'Search terms', 'Classification parameters', 'Results archive'])
-        self.__file_path =  self.__saveandload.config_json_path
-        self.__config_data = self.__saveandload.load_config_file(self.__file_path)
+        self.__config_data = self.__saveandload.load_config_file()
 
     def search_button(self):
         search_on = st.button("Start search", type="primary")
@@ -58,7 +57,7 @@ class Display():
         __new_search_term = st.text_input('Add a new search term')
         if __new_search_term != "":
             self.__config_data['search_terms'].append(__new_search_term)
-            self.__saveandload.save_config_file(self.__config_data, self.__file_path)
+            self.__saveandload.save_config_file(self.__config_data)
             st.text('Term saved, please refresh page to update list')
 
     def __remove_search_term(self):
@@ -67,11 +66,10 @@ class Display():
             pass
         elif __term_removed in self.__config_data['search_terms']:          
             self.__config_data['search_terms'].remove(__term_removed)
-            self.__saveandload.save_config_file(self.__config_data, self.__file_path)
+            self.__saveandload.save_config_file(self.__config_data)
             st.text('Term removed, please refresh page to update list')
         else:
-            st.error(f'{__term_removed} is not in the list of search terms')
-         
+            st.error(f'{__term_removed} is not in the list of search terms')    
 
     def show_search_terms(self):
             st.markdown('**Search terms**')
@@ -81,7 +79,6 @@ class Display():
             self.__append_search_term()
             self.__remove_search_term()
    
-
     def set_parameters(self):
             st.markdown('**Classification parameters**')
             dic = {'query_in_title': 'The query is in the title',
@@ -93,6 +90,8 @@ class Display():
             for key, value in self.__config_data['selection_parameters'].items():
                 new_value = st.text_input(f"{dic[key]}:", value=value)
                 self.__config_data['selection_parameters'][key] = int(new_value)
-            self.__saveandload.save_config_file(self.__config_data, self.__file_path)
+            self.__saveandload.save_config_file(self.__config_data)
+
+    
 
     

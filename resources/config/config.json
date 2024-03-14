@@ -48,5 +48,8 @@
         "echocardiography AND pulmonary hypertension",
         "CPET AND pulmonary hypertension"
     ],
-    "dayly_search_done": false
+    "programmed_search": {
+        "programmed_search_done": false,
+        "day_of_search": 0
+    }
 }

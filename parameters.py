@@ -9,5 +9,6 @@ class Parameters:
         self.start_date_str = self.__start_date.strftime('%Y/%m/%d')
         self.end_date_str = self.__end_date.strftime('%Y/%m/%d')
         self.day_week = datetime.weekday(self.__end_date)
-        self.dayly_search_done = False
+        
+    
         
