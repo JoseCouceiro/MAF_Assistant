@@ -3,15 +3,16 @@ import json
 import streamlit as st
 from metapub import FindIt
 from deepl_conect import Translate
-from config import cfg_item
+from config import SaveAndLoad
 
 class Display():
 
     def __init__(self):
         self.__transl = Translate()
+        self.__saveandload = SaveAndLoad()
         self.tab1, self.tab2, self.tab3, self.tab4 = st.tabs(['Search results', 'Search terms', 'Classification parameters', 'Results archive'])
-        self.__file_path =  'resources/config/config.json'
-        self.__config_data = self.load_config_file(self.__file_path)
+        self.__file_path =  self.__saveandload.config_json_path
+        self.__config_data = self.__saveandload.load_config_file(self.__file_path)
 
     def search_button(self):
         search_on = st.button("Start search", type="primary")
@@ -57,7 +58,7 @@ class Display():
         __new_search_term = st.text_input('Add a new search term')
         if __new_search_term != "":
             self.__config_data['search_terms'].append(__new_search_term)
-            self.save_config_file(self.__config_data, self.__file_path)
+            self.__saveandload.save_config_file(self.__config_data, self.__file_path)
             st.text('Term saved, please refresh page to update list')
 
     def __remove_search_term(self):
@@ -66,7 +67,7 @@ class Display():
             pass
         elif __term_removed in self.__config_data['search_terms']:          
             self.__config_data['search_terms'].remove(__term_removed)
-            self.save_config_file(self.__config_data, self.__file_path)
+            self.__saveandload.save_config_file(self.__config_data, self.__file_path)
             st.text('Term removed, please refresh page to update list')
         else:
             st.error(f'{__term_removed} is not in the list of search terms')
@@ -92,16 +93,6 @@ class Display():
             for key, value in self.__config_data['selection_parameters'].items():
                 new_value = st.text_input(f"{dic[key]}:", value=value)
                 self.__config_data['selection_parameters'][key] = int(new_value)
-            self.save_config_file(self.__config_data, self.__file_path)
-               
-    def load_config_file(self, file_path):
-        with open(file_path, 'r') as __f:
-            __data = json.load(__f)
-        return __data
-    
-    def save_config_file(self, data, file_path):
-        with open(file_path, 'w') as __f:
-            json.dump(data, __f, indent=4)
-        print('data dump')
+            self.__saveandload.save_config_file(self.__config_data, self.__file_path)
 
     

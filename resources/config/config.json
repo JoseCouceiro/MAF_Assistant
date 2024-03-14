@@ -25,7 +25,7 @@
     "selection_parameters": {
         "query_in_title": 2,
         "is_rct": 2,
-        "made_in_spain": 3,
+        "made_in_spain": 2,
         "is_meta_analysis": 1,
         "from_countries": 1,
         "threshold": 3

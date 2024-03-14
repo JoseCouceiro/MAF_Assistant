@@ -28,3 +28,15 @@ class Config:
                 self.data = json.load(file)
         """ else:
             raise Exception('Config Only Can Be Instancianted Once!!!') """
+
+class SaveAndLoad():
+    
+    def load_config_file(self, file_path):
+        with open(file_path, 'r') as __f:
+            __data = json.load(__f)
+        return __data
+    
+    def save_config_file(self, data, file_path):
+        with open(file_path, 'w') as __f:
+            json.dump(data, __f, indent=4)
+        print('data dump')

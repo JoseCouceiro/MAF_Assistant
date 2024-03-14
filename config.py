@@ -1,5 +1,6 @@
 from importlib import resources
 import json
+import os
 
 def cfg_item(*items):
     data = Config.instance().data
@@ -7,11 +8,26 @@ def cfg_item(*items):
         data = data[key]
     return data
 
+class SaveAndLoad():
+
+    def __init__(self):
+        self.config_json_path = os.path.join("resources", "config", "config.json")
+    
+    def load_config_file(self, file_path):
+        with open(file_path, 'r') as __f:
+            __data = json.load(__f)
+        return __data
+    
+    def save_config_file(self, data, file_path):
+        with open(file_path, 'w') as __f:
+            json.dump(data, __f, indent=4)
+        print('data dump')
+
 class Config:
 
-    __config_json_path, __config_json_filename = "resources.config", "config.json"
-
     __instance = None
+    __config_json_path, __config_json_filename = "resources.config", "config.json"  
+    
 
     @staticmethod
     def instance():
@@ -28,3 +44,4 @@ class Config:
                 self.data = json.load(file)
         """ else:
             raise Exception('Config Only Can Be Instancianted Once!!!') """
+        

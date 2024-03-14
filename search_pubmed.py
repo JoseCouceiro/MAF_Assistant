@@ -2,6 +2,7 @@ from metapub import PubMedFetcher
 from metapub import FindIt
 from parameters import Parameters
 from classify_articles import Classify
+from config import SaveAndLoad
 
 
 class Search:
@@ -10,6 +11,7 @@ class Search:
         self.__params = Parameters()
         self.__fetcher = PubMedFetcher()
         self.__classifier = Classify()
+        self.__config_sl = SaveAndLoad()
         
     def __search_pubmed(self, query):
         pmids = self.__fetcher.pmids_for_query(
@@ -37,7 +39,10 @@ class Search:
     
     def is_searching_day(self):
         if self.__params.day_week == 2:
+            self.__config_sl.save_config_file(self.__config_sl.config_data, self.__config_sl.file_path)
             return True
+            
+
 
 
     

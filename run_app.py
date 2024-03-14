@@ -23,15 +23,12 @@ with __displayer.tab4:
     'saved searches'
 
 with __displayer.tab1:
-    if __searcher.dayly_search_done == False:
+    """ if __searcher.dayly_search_done == False:
         if __searcher.is_searching_day():
             __search_on = True
             __searcher.dayly_search_done = True
-        else:
-            __search_on = __displayer.search_button()
-
-    
-
+    else: """
+    __search_on = __displayer.search_button()
 
     while __search_on:
         print('Running search')
