@@ -47,11 +47,15 @@ class Search:
         
     def run_programmed_search(self):
         if self.__is_searching_day():
+            print("It's searching day")
             if self.__config_data['programmed_search']['programmed_search_done'] == False:
                 self.__config_data['programmed_search']['programmed_search_done'] = True
                 self.__saveandload.save_config_file(self.__config_data)
                 return True
+            else:
+                print('The programmed search has already been done')
         else:
+            print("Not a searching day")
             self.__reset_programmed_search()
     
     

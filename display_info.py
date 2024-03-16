@@ -7,11 +7,17 @@ from config import SaveAndLoad
 
 class Display():
 
+
     def __init__(self):
         self.__transl = Translate()
         self.__saveandload = SaveAndLoad()
         self.tab1, self.tab2, self.tab3, self.tab4 = st.tabs(['Search results', 'Search terms', 'Classification parameters', 'Results archive'])
         self.__config_data = self.__saveandload.load_config_file()
+
+    def display_title(self):
+        with st.sidebar:
+            st.markdown('**MAF ASSISTANT**')
+            st.markdown('A tool for automated pubmed searching')
 
     def search_button(self):
         search_on = st.button("Start search", type="primary")
@@ -47,9 +53,9 @@ class Display():
             except:
                 st.markdown('No open access')
 
-    def display_search_info(self, query, found, sel_list):
+    def display_search_info(self, query, n_found, sel_list):
         if sel_list != None:
-            st.markdown(f"*Articles selected for query '{query}': {len(sel_list)} out of {found}*")
+            st.markdown(f"*Articles selected for query '{query}': {len(sel_list)} out of {n_found}*")
         else:
             st.markdown(f"*No articles selected for query '{query}'*")
 
