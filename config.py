@@ -1,6 +1,8 @@
 import json
+import pickle
 import os
 from importlib import resources
+from parameters import Parameters
 
 def cfg_item(*items):
     data = Config.instance().data
@@ -11,7 +13,9 @@ def cfg_item(*items):
 class SaveAndLoad():
 
     def __init__(self):
+        self.__params = Parameters()
         self.__config_json_path = os.path.join("resources", "config", "config.json")
+        self.__history_path = os.path.join("resources", "saved_searches", self.__params.today_str+'.json')
     
     def load_config_file(self):
         with open(self.__config_json_path, 'r') as __f:
@@ -21,7 +25,13 @@ class SaveAndLoad():
     def save_config_file(self, data):
         with open(self.__config_json_path, 'w') as __f:
             json.dump(data, __f, indent=4)
-        print('data dump')
+        print('Config file saved')
+
+    def save_history_file(self, data):
+        with open(self.__history_path, 'w') as __f:
+            pickle.dump(data, __f)
+        print('New history file saved')
+
 
 class Config:
 

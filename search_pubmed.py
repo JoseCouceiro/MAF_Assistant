@@ -29,14 +29,15 @@ class Search:
         __selected_ordered = sorted(__selected, key = lambda x: x[1], reverse=True)
         return __selected_ordered
     
-    def run_search(self, query):
+    def run_search(self, query, programmed_search_on):
         print(query)
         __pmids = self.__search_pubmed(query)
         __n_found = len(__pmids)
         print('Number of articles found: ', len(__pmids))
         __selected = self.__fetch_articles(__pmids, query)
-        return __selected, __n_found
-    
+        if programmed_search_on:
+            return __selected, __n_found
+         
     def __is_searching_day(self):
         if self.__params.day_week == self.__config_data['programmed_search']['day_of_search']:
             return True
