@@ -23,10 +23,11 @@ while __programmed_search_on:
     print('Running search')
     __results_list = list()
     for __query in __query_list:
-        __selected, __found = __searcher.run_search(__query, __programmed_search_on)
+        __selected, __found = __searcher.run_search(__query)
         print(f'{len(__selected)} selected out of {__found} found')
-        __results_list.append(__selected)
-        print(__selected)
+        __selected_json = __searcher.transform_article_list(__selected) 
+        print(__selected_json)
+        __results_list.append(__selected_json)
     print(__results_list)
     __saveandload.save_history_file(__results_list)
         

@@ -3,6 +3,7 @@ from metapub import FindIt
 from parameters import Parameters
 from classify_articles import Classify
 from config import SaveAndLoad
+from config import Article
 
 class Search:
 
@@ -12,6 +13,7 @@ class Search:
         self.__classifier = Classify()
         self.__saveandload = SaveAndLoad()
         self.__config_data = self.__saveandload.load_config_file()
+        self.__article = Article()
         
     def __search_pubmed(self, query):
         pmids = self.__fetcher.pmids_for_query(
@@ -29,14 +31,27 @@ class Search:
         __selected_ordered = sorted(__selected, key = lambda x: x[1], reverse=True)
         return __selected_ordered
     
-    def run_search(self, query, programmed_search_on):
+    def transform_article_list(self, art_list):
+        transformed_art_list = list()
+        for __tup in art_list:
+            __art, __score = __tup
+            print(__art)
+            self.__article.title = __art.title
+            self.__article.authors_str = __art.authors_str
+            self.__article.doi = __art.doi
+            self.__article.abstract = __art.abstract
+            self.__article.pmid = __art.pmid
+            self.__article.score = __score
+            transformed_art_list.append(self.__article.toJSON())
+        return transformed_art_list
+
+    def run_search(self, query):
         print(query)
         __pmids = self.__search_pubmed(query)
         __n_found = len(__pmids)
         print('Number of articles found: ', len(__pmids))
         __selected = self.__fetch_articles(__pmids, query)
-        if programmed_search_on:
-            return __selected, __n_found
+        return __selected, __n_found
          
     def __is_searching_day(self):
         if self.__params.day_week == self.__config_data['programmed_search']['day_of_search']:
