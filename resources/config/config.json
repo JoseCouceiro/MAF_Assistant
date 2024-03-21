@@ -28,7 +28,7 @@
         "made_in_spain": 2,
         "is_meta_analysis": 1,
         "from_countries": 1,
-        "threshold": 0
+        "threshold": 1
     },
     "search_terms": [
         "Congenital heart disease AND pulmonary hypertension",
@@ -50,6 +50,6 @@
     ],
     "programmed_search": {
         "programmed_search_done": true,
-        "day_of_search": 0
+        "day_of_search": 2
     }
 }

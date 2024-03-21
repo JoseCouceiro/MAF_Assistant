@@ -1,6 +1,8 @@
 import json
 import os
+import csv
 from importlib import resources
+import pandas as pd
 from parameters import Parameters
 
 def cfg_item(*items):
@@ -15,7 +17,7 @@ class SaveAndLoad:
         self.__params = Parameters()
         self.__config_json_path = os.path.join("resources", "config", "config.json")
         self.__history_path = os.path.join("resources", "saved_searches", self.__params.today_str+'.json')
-    
+
     def load_config_file(self):
         with open(self.__config_json_path, 'r') as __f:
             __data = json.load(__f)
@@ -28,13 +30,25 @@ class SaveAndLoad:
 
     def save_history_file(self, data):
         with open(self.__history_path, 'w') as __f:
-            __f.write(data)
+            json.dump(data, __f)
         print('New history file saved')
 
-class Article:
+class DataBase:
 
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, indent=4)
+    def __init__(self):
+        self.__database_path = os.path.join("resources", "database", 'database.csv')
+        self.__fieldnames = ['title','authors_str','doi','abstract','pmid','score','selected']
+    
+    def save_to_database(self, lst):
+        __csv_file = open(self.__database_path, 'a', newline='', encoding='utf-8')
+        __writer = csv.DictWriter(__csv_file, self.__fieldnames)
+        for __dic in lst:
+            __writer.writerow(__dic)
+        __csv_file.close()
+    
+    def clean_dataframe(self, df):
+        df.drop(subset=['doi'], inplace = True)
+        return df
 
 class Config:
 
