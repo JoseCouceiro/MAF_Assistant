@@ -1,5 +1,6 @@
 import re
-import json
+import os
+from pathlib import Path
 import streamlit as st
 from metapub import FindIt
 from deepl_conect import Translate
@@ -7,12 +8,14 @@ from config import SaveAndLoad
 
 class Display():
 
-
     def __init__(self):
         self.__transl = Translate()
         self.__saveandload = SaveAndLoad()
         self.tab1, self.tab2, self.tab3, self.tab4 = st.tabs(['Search results', 'Search terms', 'Classification parameters', 'Results archive'])
+        with self.tab4:
+            self.col1, self.col2 = st.columns([1,4])
         self.__config_data = self.__saveandload.load_config_file()
+        self.__searches_path = Path(os.path.join("resources", "saved_searches"))
 
     def display_title(self):
         with st.sidebar:
@@ -22,7 +25,49 @@ class Display():
     def search_button(self):
         search_on = st.button("Start search", type="primary")
         return search_on
-        
+    
+    def delete_checkboxes(self, key):
+        while st.checkbox('Delete', key = key):
+            st.write(st.session_state[key])
+            return True
+    
+    def history_buttons(self):
+        __reloading = st.button('Reload archive', type="primary")
+        st.markdown('Stored searches')
+        __n = 0
+        """ for __file in self.__searches_path.iterdir():
+            __filename = __file.name.split('.')[0]
+            if st.button(f"{__filename.replace('_', '/')}"):
+                return True, __filename """
+        variables = dict()
+        filenames = dict()
+        delete_buttons = dict()
+        for __file in self.__searches_path.iterdir():
+            __n += 1
+            filenames[__n] = __file.name.split('.')[0]
+            variables[__n] = st.button(f"{filenames[__n].replace('_', '/')}")
+            delete_buttons[__n] = self.delete_checkboxes(__n)
+            
+            if variables[__n]:
+                return True, filenames[__n]
+            if delete_buttons[__n]:
+                os.remove(os.path.join(self.__searches_path, filenames[__n]+'.json'))
+            
+
+        """ for __file in self.__searches_path.iterdir():   
+            __delete_it = self.delete_checkboxes(__n) 
+        __n += 1       
+        if __delete_it:
+            os.remove(os.path.join(self.__searches_path, __filename+'.json')) """
+            
+            #st.write(st.session_state[__n])
+            
+            
+
+        if __reloading:
+            return False, False
+        return False, False         
+    
     def __split_paragraphs(self, abst):
         pattern = r'\b([A-ZÁÉÍÓÚÜÑ\s]+\:)'
         splitted = re.split(pattern, abst)
@@ -52,6 +97,32 @@ class Display():
                 st.markdown('\n')
             except:
                 st.markdown('No open access')
+
+    def display_history_results(self, dic):
+        for __query, __art_lst in dic.items():
+            st.markdown(f"*Articles selected for query '{__query}': {len(__art_lst)}*")
+            for __art in __art_lst:
+                st.markdown(f'Article score: {__art['score']}')
+                st.markdown(f"**{__art['title']}**")
+                st.markdown(__art['authors_str'])
+                st.markdown(f'https://doi.org/{__art['doi']}')
+                if __art['abstract'] != None:
+                    __splitted = self.__split_paragraphs(__art['abstract'])
+                    try:
+                        st.markdown(self.__transl.translate_to_sp(__splitted))
+                    except:
+                        st.error('DeepL translation quota exceeded')
+                        st.markdown(__splitted)
+                try:
+                    __src = FindIt(str(__art['pmid']))
+                    if __src.url:
+                        st.markdown(__src.url)
+                    else:
+                        st.markdown('No open access')
+                        # st.markdown(__src.reason)
+                    st.markdown('\n')
+                except:
+                    st.markdown('No open access')
 
     def display_search_info(self, query, n_found, sel_list):
         if sel_list != None:

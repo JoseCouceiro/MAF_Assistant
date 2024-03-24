@@ -40,7 +40,6 @@ class Search:
         for __tup in art_list:
             __art_dic = dict()
             __art, __score, __pass = __tup
-            # print(__art)
             __art_dic['title'] = __art.title
             __art_dic['authors_str'] = __art.authors_str
             __art_dic['doi'] = __art.doi

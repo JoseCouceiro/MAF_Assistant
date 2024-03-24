@@ -1,6 +1,7 @@
 import json
 import os
 import csv
+from pathlib import Path
 from importlib import resources
 import pandas as pd
 from parameters import Parameters
@@ -16,8 +17,8 @@ class SaveAndLoad:
     def __init__(self):
         self.__params = Parameters()
         self.__config_json_path = os.path.join("resources", "config", "config.json")
-        self.__history_path = os.path.join("resources", "saved_searches", self.__params.today_str+'.json')
-
+        self.__history_path = os.path.join("resources", "saved_searches")
+    
     def load_config_file(self):
         with open(self.__config_json_path, 'r') as __f:
             __data = json.load(__f)
@@ -29,9 +30,16 @@ class SaveAndLoad:
         print('Config file saved')
 
     def save_history_file(self, data):
-        with open(self.__history_path, 'w') as __f:
+        with open(os.path.join(self.__history_path, self.__params.today_str+'.json'), 'w') as __f:
             json.dump(data, __f)
         print('New history file saved')
+
+    def load_history_file(self, filename):
+        with open(os.path.join(self.__history_path, filename+'.json'), 'r') as __f:
+            print(os.path.join(self.__history_path, filename+'.json'))
+            __data = json.load(__f)
+
+        return __data
 
 class DataBase:
 
