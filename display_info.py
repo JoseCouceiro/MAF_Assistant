@@ -32,41 +32,28 @@ class Display():
             return True
     
     def history_buttons(self):
-        __reloading = st.button('Reload archive', type="primary")
-        st.markdown('Stored searches')
-        __n = 0
-        """ for __file in self.__searches_path.iterdir():
-            __filename = __file.name.split('.')[0]
-            if st.button(f"{__filename.replace('_', '/')}"):
-                return True, __filename """
-        variables = dict()
         filenames = dict()
         delete_buttons = dict()
-        for __file in self.__searches_path.iterdir():
-            __n += 1
+        clicked_filenames = []  # List to store filenames of clicked buttons
+        
+        for __n, __file in enumerate(self.__searches_path.iterdir(), start=1):
             filenames[__n] = __file.name.split('.')[0]
-            variables[__n] = st.button(f"{filenames[__n].replace('_', '/')}")
-            delete_buttons[__n] = self.delete_checkboxes(__n)
+            variables = st.button(f"{filenames[__n].replace('_', '/')}")
+            delete_buttons[__n] = st.checkbox('Delete', key=f'checkbox_{__n}')
             
-            if variables[__n]:
-                return True, filenames[__n]
+            if variables:
+                clicked_filenames.append(filenames[__n])  # Store clicked filename
+
+        # Process delete actions after checking all buttons
+        for __n in delete_buttons:
             if delete_buttons[__n]:
-                os.remove(os.path.join(self.__searches_path, filenames[__n]+'.json'))
-            
-
-        """ for __file in self.__searches_path.iterdir():   
-            __delete_it = self.delete_checkboxes(__n) 
-        __n += 1       
-        if __delete_it:
-            os.remove(os.path.join(self.__searches_path, __filename+'.json')) """
-            
-            #st.write(st.session_state[__n])
-            
-            
-
-        if __reloading:
-            return False, False
-        return False, False         
+                filename = filenames[__n] + '.json'
+                os.remove(os.path.join(self.__searches_path, filename))
+        
+        # Return list of clicked filenames
+        if len(clicked_filenames) != 0:
+            return clicked_filenames[0]
+       
     
     def __split_paragraphs(self, abst):
         pattern = r'\b([A-ZÁÉÍÓÚÜÑ\s]+\:)'
@@ -74,7 +61,7 @@ class Display():
         return '\n'.join(splitted)
     
     def display_results(self, tup):
-        __art, __score = tup
+        __art, __score, __pass = tup
         if __art != None:
             st.markdown(f'Article score: {__score}')
             st.markdown(f"**{__art.title}**")

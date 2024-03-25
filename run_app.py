@@ -12,8 +12,7 @@ __configurations = Config()
 __configurations.instance()
 
 #__query_list = cfg_item('search_terms')
-__query_list = ["macitentan",
-        "selexipag"]
+__query_list = ["Pulmonary Arterial Hypertension"]
 
 __displayer = Display()
 __searcher = Search()
@@ -45,13 +44,14 @@ with __displayer.tab2:
 with __displayer.tab4:
 
     with __displayer.col1:
-        __display_history, __date = __displayer.history_buttons()
+        __filename = __displayer.history_buttons()
+        st.write(__filename)
 
     with __displayer.col2:
-        while __display_history:
-            __history_dic = __saveandload.load_history_file(__date)
+        while __filename:
+            __history_dic = __saveandload.load_history_file(__filename)
             __displayer.display_history_results(__history_dic)
-            __display_history = False
+            __filename = False
 
 
 
