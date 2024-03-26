@@ -11,8 +11,8 @@ import streamlit as st
 __configurations = Config()
 __configurations.instance()
 
-#__query_list = cfg_item('search_terms')
-__query_list = ["Pulmonary Arterial Hypertension"]
+__query_list = cfg_item('search_terms')
+#__query_list = ["Pulmonary Arterial Hypertension"]
 
 __displayer = Display()
 __searcher = Search()
@@ -45,7 +45,6 @@ with __displayer.tab4:
 
     with __displayer.col1:
         __filename = __displayer.history_buttons()
-        st.write(__filename)
 
     with __displayer.col2:
         while __filename:

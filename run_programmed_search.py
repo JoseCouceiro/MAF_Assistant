@@ -9,10 +9,10 @@ __configurations.instance()
 __saveandload = SaveAndLoad()
 __database = DataBase()
 
-#__query_list = cfg_item('search_terms')
-__query_list = ["macitentan",
+__query_list = cfg_item('search_terms')
+""" __query_list = ["macitentan",
         "selexipag",
-        "ambrisentan"]
+        "ambrisentan"] """
 
 __searcher = Search()
 

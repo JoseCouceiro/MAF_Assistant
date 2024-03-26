@@ -19,11 +19,24 @@ def main():
         if not checkbox:
             st.button(f"Botón {i+1}")
 
-    # Eliminar botones y checkboxes seleccionados
-    indices_a_eliminar = [i for i, checkbox in enumerate(checkboxes) if checkbox]
-    for index in reversed(indices_a_eliminar):
-        del checkboxes[index]
-
 if __name__ == "__main__":
     main()
 
+f delete_checkboxes(key):
+    while st.checkbox('Delete', key = key):
+        st.write(st.session_state[key])
+        return True
+
+def history_buttons():
+    filenames = dict()
+    delete_buttons = dict()
+    for __file in __searches_path.iterdir():
+        __n += 1
+        filenames[__n] = __file.name.split('.')[0]
+        variables[__n] = st.button(f"{filenames[__n].replace('_', '/')}")
+        delete_buttons[__n] = st.checkbox('Delete', key = key)
+        
+        if variables[__n]:
+            return True, filenames[__n]
+        if delete_buttons[__n]:
+            os.remove(os.path.join(__searches_path, filenames[__n]+'.json'))

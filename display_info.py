@@ -26,35 +26,27 @@ class Display():
         search_on = st.button("Start search", type="primary")
         return search_on
     
-    def delete_checkboxes(self, key):
-        while st.checkbox('Delete', key = key):
-            st.write(st.session_state[key])
-            return True
-    
     def history_buttons(self):
         filenames = dict()
-        delete_buttons = dict()
-        clicked_filenames = []  # List to store filenames of clicked buttons
-        
-        for __n, __file in enumerate(self.__searches_path.iterdir(), start=1):
+        clicked_buttons = []
+        deleting_buttons = []
+        for __n, __file in enumerate(self.__searches_path.iterdir()): 
             filenames[__n] = __file.name.split('.')[0]
-            variables = st.button(f"{filenames[__n].replace('_', '/')}")
-            delete_buttons[__n] = st.checkbox('Delete', key=f'checkbox_{__n}')
-            
-            if variables:
-                clicked_filenames.append(filenames[__n])  # Store clicked filename
-
+            button = st.button(f"{filenames[__n].replace('_', '/')}")
+            checkbox = st.checkbox('Delete', key=f'checkbox_{__n}')
+            if checkbox:
+                deleting_buttons.append(__n)
+                st.error(f'File "{__file.name.split('.')[0]}" deleted, uncheck the "Delete" checkbox before continuing')
+            if button and not checkbox:
+                clicked_buttons.append(__n)
         # Process delete actions after checking all buttons
-        for __n in delete_buttons:
-            if delete_buttons[__n]:
-                filename = filenames[__n] + '.json'
-                os.remove(os.path.join(self.__searches_path, filename))
-        
-        # Return list of clicked filenames
-        if len(clicked_filenames) != 0:
-            return clicked_filenames[0]
+        for __n in deleting_buttons:
+            filename = filenames[__n] + '.json'
+            os.remove(os.path.join(self.__searches_path, filename))
+        # Return clicked filenames
+        if len(clicked_buttons) != 0:
+            return filenames[clicked_buttons[0]]
        
-    
     def __split_paragraphs(self, abst):
         pattern = r'\b([A-ZÁÉÍÓÚÜÑ\s]+\:)'
         splitted = re.split(pattern, abst)
