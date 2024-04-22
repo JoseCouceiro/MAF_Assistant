@@ -140,7 +140,7 @@ class Display():
             dic = {'query_in_title': 'The query is in the title',
                    'is_rct': 'There is an rct in the journal',
                    'made_in_spain' : 'The journal was made in Spain',
-                   'is_meta_analysis' : 'The journal is a meta_analysis?',
+                   'is_meta_analysis' : 'The journal is a meta_analysis',
                    'from_countries' : 'The authors of the journal are from the countries of interest',
                    'threshold' : 'The journal should score above this value'}
             for key, value in self.__config_data['selection_parameters'].items():

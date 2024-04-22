@@ -12,7 +12,9 @@ __configurations = Config()
 __configurations.instance()
 
 __query_list = cfg_item('search_terms')
-#__query_list = ["Pulmonary Arterial Hypertension"]
+#__query_list = ["macitentan",
+        #"ambrisentan",
+        #"selexipag"]
 
 __displayer = Display()
 __searcher = Search()
@@ -27,11 +29,18 @@ with __displayer.tab1:
 
     while __search_on:
         print('Running search')
+        __already_found = list()
         for __query in __query_list:
             __selected, __n_found = __searcher.run_search(__query, is_programmed=False)
-            __displayer.display_search_info(__query, __n_found, __selected)
-            for __tup in __selected:
-                __displayer.display_results(__tup)
+            __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
+            #st.write('selected_clean: ', __selected_clean)
+            #st.write('already_found: ', __already_found)
+            __displayer.display_search_info(__query, __n_found, __selected_clean)
+            try:
+                for __tup in __selected_clean:
+                    __displayer.display_results(__tup)
+            except:
+                st.write('Journal has already been selected in a different query')
         print('Search Done')
         __search_on = False
 

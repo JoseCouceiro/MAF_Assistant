@@ -22,7 +22,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-f delete_checkboxes(key):
+def delete_checkboxes(key):
     while st.checkbox('Delete', key = key):
         st.write(st.session_state[key])
         return True

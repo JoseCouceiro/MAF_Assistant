@@ -1,5 +1,5 @@
-metapub=0.5.5
-deepl=1.17.0
-python=3.12.2
-streamlit=1.32.0
-pandas=2.1
+metapub==0.5.5
+deepl==1.17.0
+python==3.12.2
+streamlit==1.32.0
+pandas==2.1

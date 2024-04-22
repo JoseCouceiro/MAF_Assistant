@@ -23,11 +23,12 @@ __programmed_search_on = True
 while __programmed_search_on:
     print('Running search')
     __results_dic = dict()
-    
+    __already_found = list()
     for __query in __query_list:
         __selected, __rejected, __n_found = __searcher.run_search(__query, is_programmed=True)
+        __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
         print(f'{len(__selected)} selected out of {__n_found} found')
-        __selected_dics = __searcher.transform_article_list(__selected) 
+        __selected_dics = __searcher.transform_article_list(__selected_clean) 
         __rejected_dics = __searcher.transform_article_list(__rejected)
         
         __results_dic[__query] = __selected_dics

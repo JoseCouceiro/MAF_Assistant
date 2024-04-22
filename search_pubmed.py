@@ -61,10 +61,28 @@ class Search:
         print('Number of articles found: ', len(__pmids))
         __selected, __rejected = self.__fetch_articles(__pmids, query, is_programmed)
         if not is_programmed:
-            print('not programmed', 'selected: ', __selected)
             return __selected, __n_found
         if is_programmed:
             return __selected, __rejected, __n_found
+        
+    def remove_duplicates(self, selected_list, duplicates_list):
+        #st.write('already found from inside remove duplicates: ', duplicates_list)
+        #st.write('input selected list: ', selected_list)
+        #st.write('input duplicates_list: ', duplicates_list)
+        if len(selected_list) != 0:
+            for __tup in selected_list:
+                __art, __score, __pass = __tup
+                #st.write('searching duplicates')
+                if __art.pmid in duplicates_list:
+                    #st.write('selected list in if loop: ', selected_list)
+                    selected_list.remove(__tup)
+                    #st.write('selected list: ', selected_list)
+                    #st.write(f'article {__art.pmid} in already found')
+                else:
+                    duplicates_list.append(__art.pmid)
+                    #st.write(f'article {__art.pmid} not in already found')
+                    #st.write('selected list: ', selected_list)
+        return selected_list, duplicates_list
          
     def __is_searching_day(self):
         if self.__params.day_week == self.__config_data['programmed_search']['day_of_search']:
