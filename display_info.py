@@ -36,7 +36,8 @@ class Display():
             checkbox = st.checkbox('Delete', key=f'checkbox_{__n}')
             if checkbox:
                 deleting_buttons.append(__n)
-                st.error(f'File "{__file.name.split('.')[0]}" deleted, uncheck the "Delete" checkbox before continuing')
+                #st.error(f'File "{__file.name.split('.')[0]}" deleted, uncheck the "Delete" checkbox before continuing')
+                st.error('File "{}" deleted, uncheck the "Delete" checkbox before continuing'.format('abcd.efg'.split('.')[0]))
             if button and not checkbox:
                 clicked_buttons.append(__n)
         # Process delete actions after checking all buttons
