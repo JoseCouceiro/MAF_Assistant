@@ -36,8 +36,8 @@ class Display():
             checkbox = st.checkbox('Delete', key=f'checkbox_{__n}')
             if checkbox:
                 deleting_buttons.append(__n)
-                #st.error(f'File "{__file.name.split('.')[0]}" deleted, uncheck the "Delete" checkbox before continuing')
-                st.error('File "{}" deleted, uncheck the "Delete" checkbox before continuing'.format('abcd.efg'.split('.')[0]))
+                st.error(f"File '{__file.name.split(".")[0]}' deleted, uncheck the 'Delete' checkbox before continuing")
+                #st.error('File "{}" deleted, uncheck the "Delete" checkbox before continuing'.format('abcd.efg'.split('.')[0]))
             if button and not checkbox:
                 clicked_buttons.append(__n)
         # Process delete actions after checking all buttons
@@ -56,10 +56,10 @@ class Display():
     def display_results(self, tup):
         __art, __score, __pass = tup
         if __art != None:
-            st.markdown(f'Article score: {__score}')
+            st.markdown(f"Article score: {__score}")
             st.markdown(f"**{__art.title}**")
             st.markdown(__art.authors_str)
-            st.markdown(f'https://doi.org/{__art.doi}')
+            st.markdown(f"https://doi.org/{__art.doi}")
             if __art.abstract != None:
                 __splitted = self.__split_paragraphs(__art.abstract)
                 try:
@@ -82,10 +82,10 @@ class Display():
         for __query, __art_lst in dic.items():
             st.markdown(f"*Articles selected for query '{__query}': {len(__art_lst)}*")
             for __art in __art_lst:
-                st.markdown(f'Article score: {__art['score']}')
+                st.markdown(f"Article score: {__art['score']}")
                 st.markdown(f"**{__art['title']}**")
                 st.markdown(__art['authors_str'])
-                st.markdown(f'https://doi.org/{__art['doi']}')
+                st.markdown(f"https://doi.org/{__art['doi']}")
                 if __art['abstract'] != None:
                     __splitted = self.__split_paragraphs(__art['abstract'])
                     try:
