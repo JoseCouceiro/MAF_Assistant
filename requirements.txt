@@ -1,4 +1,5 @@
 metapub==0.5.5
 deepl==1.17.0
 streamlit==1.32.0
-pandas==2.1    
+pandas==2.1
+lxml_html_clen==0.1.1
