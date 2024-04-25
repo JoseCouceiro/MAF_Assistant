@@ -10,15 +10,12 @@ __saveandload = SaveAndLoad()
 __database = DataBase()
 
 __query_list = cfg_item('search_terms')
-""" __query_list = ["macitentan",
-        "selexipag",
-        "ambrisentan"] """
+#__query_list = ["macitentan", "selexipag", "ambrisentan"]
 
 __searcher = Search()
 
-# __programmed_search_on = __searcher.run_programmed_search()
-
-__programmed_search_on = True
+__programmed_search_on = __searcher.run_programmed_search()
+#__programmed_search_on = True
 
 while __programmed_search_on:
     print('Running search')

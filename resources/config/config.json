@@ -50,7 +50,7 @@
         "PAH"
     ],
     "programmed_search": {
-        "programmed_search_done": true,
-        "day_of_search": 2
+        "programmed_search_done": false,
+        "day_of_search": 0
     }
 }
