@@ -1,7 +1,7 @@
 from metapub import PubMedFetcher
 from metapub import FindIt
 import streamlit as st
-from parameters import Parameters
+from parameters import Parameters, UserParams
 from classify_articles import Classify
 from config import SaveAndLoad
 
@@ -12,7 +12,9 @@ class Search:
         self.__fetcher = PubMedFetcher()
         self.__classifier = Classify()
         self.__saveandload = SaveAndLoad()
+        self.__userparams = UserParams()
         self.__config_data = self.__saveandload.load_config_file()
+        self.__config_data = self.__userparams.get_params()
         
     def __search_pubmed(self, query):
         pmids = self.__fetcher.pmids_for_query(

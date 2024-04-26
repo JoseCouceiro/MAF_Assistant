@@ -132,26 +132,27 @@ class Display():
             st.error(f'{__term_removed} is not in the list of search terms')    
 
     def show_search_terms(self):
-            st.markdown('**Search terms**')
-            for __term in self.__config_data['search_terms']:
-                st.text(__term)
-                st.divider()
-            self.__append_search_term()
-            self.__remove_search_term()
+        st.markdown('**Search terms**')
+        for __term in self.__config_data['search_terms']:
+            st.text(__term)
+            st.divider()
+        self.__append_search_term()
+        self.__remove_search_term()
    
     def set_parameters(self):
-            st.markdown('**Classification parameters**')
-            dic = {'query_in_title': 'The query is in the title',
-                   'is_rct': 'There is an rct in the journal',
-                   'made_in_spain' : 'The journal was made in Spain',
-                   'is_meta_analysis' : 'The journal is a meta_analysis',
-                   'from_countries' : 'The authors of the journal are from the countries of interest',
-                   'threshold' : 'The journal should score above this value'}
-            for key, value in self.__config_data['selection_parameters'].items():
-                new_value = st.text_input(f"{dic[key]}:", value=value)
-                self.__config_data['selection_parameters'][key] = int(new_value)
-            self.__saveandload.save_config_file(self.__config_data)
+        st.markdown('**Classification parameters**')
+        dic = {'query_in_title': 'The query is in the title',
+                'is_rct': 'There is an rct in the journal',
+                'made_in_spain' : 'The journal was made in Spain',
+                'is_meta_analysis' : 'The journal is a meta_analysis',
+                'from_countries' : 'The authors of the journal are from the countries of interest',
+                'threshold' : 'The journal should score above this value'}
+        for key, value in self.__config_data['selection_parameters'].items():
+            new_value = st.text_input(f"{dic[key]}:", value=value)
+            self.__config_data['selection_parameters'][key] = int(new_value)
+        self.__saveandload.save_config_file(self.__config_data)
 
-    
+    def set_parameters(self):
+        st.markdown('**Classification parameters**')
 
     

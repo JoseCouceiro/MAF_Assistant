@@ -3,6 +3,7 @@ from config import cfg_item
 from display_info import Display
 from search_pubmed import Search
 from config import SaveAndLoad
+from parameters import UserParams
 
 from pathlib import Path
 
@@ -17,8 +18,10 @@ __query_list = cfg_item('search_terms')
 __displayer = Display()
 __searcher = Search()
 __saveandload = SaveAndLoad()
+__params = UserParams()
 
 __user = __displayer.set_user()
+__userparams = __params.get_params(__user)
 
 __displayer.display_title()
 
@@ -43,11 +46,11 @@ with __displayer.tab1:
         print('Search Done')
         __search_on = False
 
-with __displayer.tab3:
-    __displayer.set_parameters()
-
 with __displayer.tab2:    
     __displayer.show_search_terms()
+
+with __displayer.tab3:
+    __displayer.set_parameters()
 
 with __displayer.tab4:
 
