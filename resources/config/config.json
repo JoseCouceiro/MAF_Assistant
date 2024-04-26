@@ -51,6 +51,7 @@
     ],
     "programmed_search": {
         "programmed_search_done": false,
-        "day_of_search": 0
+        "day_of_search": 0,
+        "search_span": 7
     }
 }

@@ -12,14 +12,13 @@ __configurations = Config()
 __configurations.instance()
 
 __query_list = cfg_item('search_terms')
-#__query_list = ["macitentan",
-        #"ambrisentan",
-        #"selexipag"]
+#__query_list = ["macitentan", "ambrisentan", "selexipag"]
 
 __displayer = Display()
 __searcher = Search()
-
 __saveandload = SaveAndLoad()
+
+__user = __displayer.set_user()
 
 __displayer.display_title()
 

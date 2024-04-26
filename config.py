@@ -4,7 +4,7 @@ import csv
 from pathlib import Path
 from importlib import resources
 import pandas as pd
-from parameters import Parameters
+from datetime import datetime
 
 def cfg_item(*items):
     data = Config.instance().data
@@ -15,7 +15,8 @@ def cfg_item(*items):
 class SaveAndLoad:
 
     def __init__(self):
-        self.__params = Parameters()
+        self.__today = datetime.now()
+        self.__today_str = self.__today.strftime('%Y_%m_%d')
         self.__config_json_path = os.path.join("resources", "config", "config.json")
         self.__history_path = os.path.join("resources", "saved_searches")
     
@@ -30,7 +31,7 @@ class SaveAndLoad:
         print('Config file saved')
 
     def save_history_file(self, data):
-        with open(os.path.join(self.__history_path, self.__params.today_str+'.json'), 'w') as __f:
+        with open(os.path.join(self.__history_path, self.__today_str+'.json'), 'w') as __f:
             json.dump(data, __f)
         print('New history file saved')
 

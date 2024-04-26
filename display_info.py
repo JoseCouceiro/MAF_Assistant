@@ -110,6 +110,9 @@ class Display():
         else:
             st.markdown(f"*No articles selected for query '{query}'*")
 
+    def set_user(self):
+        return st.text_input('Write your user name: ')
+
     def __append_search_term(self):
         __new_search_term = st.text_input('Add a new search term')
         if __new_search_term != "":
