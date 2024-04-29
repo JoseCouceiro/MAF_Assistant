@@ -152,7 +152,5 @@ class Display():
             self.__config_data['selection_parameters'][key] = int(new_value)
         self.__saveandload.save_config_file(self.__config_data)
 
-    def set_parameters(self):
-        st.markdown('**Classification parameters**')
 
     

@@ -3,9 +3,8 @@ from config import cfg_item
 from display_info import Display
 from search_pubmed import Search
 from config import SaveAndLoad
-from parameters import UserParams
-
 from pathlib import Path
+from user_params import Database, UserParams, save_params, get_params
 
 import streamlit as st
 
@@ -18,10 +17,10 @@ __query_list = cfg_item('search_terms')
 __displayer = Display()
 __searcher = Search()
 __saveandload = SaveAndLoad()
-__params = UserParams()
+__user_params = Database()
 
 __user = __displayer.set_user()
-__userparams = __params.get_params(__user)
+__session_params = get_params(__user)
 
 __displayer.display_title()
 

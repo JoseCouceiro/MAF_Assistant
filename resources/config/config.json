@@ -23,7 +23,7 @@
         "usa"
     ],
     "selection_parameters": {
-        "query_in_title": 2,
+        "query_in_title": 10,
         "is_rct": 2,
         "made_in_spain": 2,
         "is_meta_analysis": 1,
