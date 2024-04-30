@@ -27,8 +27,9 @@ while __programmed_search_on:
         print(f'{len(__selected)} selected out of {__n_found} found')
         __selected_dics = __searcher.transform_article_list(__selected_clean) 
         __rejected_dics = __searcher.transform_article_list(__rejected)
+        __total_n_dics = len(__rejected_dics)+len(__selected_dics)
         
-        __results_dic[__query] = __selected_dics
+        __results_dic[__query] = (__selected_dics, __total_n_dics)
 
         __database.save_to_database(__selected_dics)  
         __database.save_to_database(__rejected_dics)

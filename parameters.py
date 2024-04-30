@@ -12,9 +12,9 @@ class Parameters:
         self.day_week = datetime.weekday(self.__end_date)
         
         # fixed dates
-        #self.start_date_str = '2024/04/15'
-        #self.end_date_str = '2024/04/22'
-        #self.today_str = '2024_04_22'
+        #self.start_date_str = '2024/04/01'
+        #self.end_date_str = '2024/04/08'
+        #self.today_str = '2024_04_08'
     
 
         

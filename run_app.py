@@ -12,9 +12,7 @@ __configurations = Config()
 __configurations.instance()
 
 __query_list = cfg_item('search_terms')
-#__query_list = ["macitentan",
-        #"ambrisentan",
-        #"selexipag"]
+#__query_list = ["echocardiography AND pulmonary hypertension"]
 
 __displayer = Display()
 __searcher = Search()
