@@ -49,7 +49,7 @@ with __displayer.tab2:
     __displayer.show_search_terms()
 
 with __displayer.tab3:
-    __displayer.set_parameters()
+    __displayer.set_parameters(__user)
 
 with __displayer.tab4:
 

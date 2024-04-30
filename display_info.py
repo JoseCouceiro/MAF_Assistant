@@ -5,6 +5,7 @@ import streamlit as st
 from metapub import FindIt
 from deepl_conect import Translate
 from config import SaveAndLoad
+from user_params import get_params, save_params
 
 class Display():
 
@@ -139,7 +140,7 @@ class Display():
         self.__append_search_term()
         self.__remove_search_term()
    
-    def set_parameters(self):
+    """ def set_parameters(self):
         st.markdown('**Classification parameters**')
         dic = {'query_in_title': 'The query is in the title',
                 'is_rct': 'There is an rct in the journal',
@@ -150,7 +151,35 @@ class Display():
         for key, value in self.__config_data['selection_parameters'].items():
             new_value = st.text_input(f"{dic[key]}:", value=value)
             self.__config_data['selection_parameters'][key] = int(new_value)
-        self.__saveandload.save_config_file(self.__config_data)
+        self.__saveandload.save_config_file(self.__config_data) """
+
+    def set_parameters(self, user):
+        
+        st.markdown('**Classification parameters**')
+        dic = {'query_in_title': 'The query is in the title',
+                'is_rct': 'There is an rct in the journal',
+                'made_in_spain' : 'The journal was made in Spain',
+                'is_meta_analysis' : 'The journal is a meta_analysis',
+                'from_countries' : 'The authors of the journal are from the countries of interest',
+                'threshold' : 'The journal should score above this value'}
+        
+        __user_params = get_params(user)
+
+        if __user_params and user != '':
+            st.write(f'Welcome "{user}"')
+            for key, value in __user_params['selection_parameters'].items():
+                new_value = st.text_input(f"{dic[key]}:", value=value, key = key)
+                __user_params['selection_parameters'][key] = int(new_value)
+                save_params(user, __user_params)
+        elif not __user_params or user == '':
+            st.write('Please enter your username')
+            __user_params = dict()
+            for key, val in dic.items():
+                new_value = st.text_input(f"{val}:", value=0)
+                __user_params['selection_parameters'] = dict()
+                __user_params['selection_parameters'][key] = int(new_value)
+                save_params(user, __user_params)
+
 
 
     

@@ -39,7 +39,6 @@ class SaveAndLoad:
         with open(os.path.join(self.__history_path, filename+'.json'), 'r') as __f:
             print(os.path.join(self.__history_path, filename+'.json'))
             __data = json.load(__f)
-
         return __data
 
 class DataBase:
