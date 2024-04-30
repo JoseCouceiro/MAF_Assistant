@@ -10,9 +10,11 @@ Base= declarative_base()
 class Database():
     def __init__(self):
         self.__config_data = cfg_item()
-        self.params_dic = {'selection_parameters': self.__config_data['selection_parameters'],
-               'search_terms': self.__config_data['search_terms'],
-               'countries_list': self.__config_data['countries_list']}
+        self.params_dic = {
+            'selection_parameters': self.__config_data['selection_parameters'],
+            'search_terms': self.__config_data['search_terms'],
+            'countries_list': self.__config_data['countries_list']
+            }
 
 # Define database schema
 class UserParams(Base):
