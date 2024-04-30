@@ -46,7 +46,7 @@ with __displayer.tab1:
         __search_on = False
 
 with __displayer.tab2:    
-    __displayer.show_search_terms()
+    __displayer.show_search_terms(__user)
 
 with __displayer.tab3:
     __displayer.set_parameters(__user)

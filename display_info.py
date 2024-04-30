@@ -114,31 +114,36 @@ class Display():
     def set_user(self):
         return st.text_input('Write your user name: ')
 
-    def __append_search_term(self):
+    def __append_search_term(self, user, user_params):
         __new_search_term = st.text_input('Add a new search term')
         if __new_search_term != "":
-            self.__config_data['search_terms'].append(__new_search_term)
-            self.__saveandload.save_config_file(self.__config_data)
+            user_params['search_terms'].append(__new_search_term)
+            save_params(user, user_params)
             st.text('Term saved, please refresh page to update list')
 
-    def __remove_search_term(self):
+    def __remove_search_term(self, user, user_params):
         __term_removed = st.text_input('Remove a search term')
         if __term_removed == "":
             pass
-        elif __term_removed in self.__config_data['search_terms']:          
-            self.__config_data['search_terms'].remove(__term_removed)
-            self.__saveandload.save_config_file(self.__config_data)
+        elif __term_removed in user_params['search_terms']:          
+            user_params['search_terms'].remove(__term_removed)
+            save_params(user, user_params)
             st.text('Term removed, please refresh page to update list')
         else:
             st.error(f'{__term_removed} is not in the list of search terms')    
 
-    def show_search_terms(self):
+    def show_search_terms(self, user):
         st.markdown('**Search terms**')
-        for __term in self.__config_data['search_terms']:
-            st.text(__term)
-            st.divider()
-        self.__append_search_term()
-        self.__remove_search_term()
+        __user_params = get_params(user)
+        if __user_params and user != '':
+            st.write(f'Welcome "{user}"')
+            for __term in __user_params['search_terms']:
+                st.text(__term)
+                st.divider()
+            self.__append_search_term(user, __user_params)
+            self.__remove_search_term(user, __user_params)
+        elif not __user_params or user == '':
+            st.write('Please enter your username')
 
     def set_parameters(self, user):
         
