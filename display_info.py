@@ -80,6 +80,7 @@ class Display():
 
     def display_history_results(self, dic):
         for __query, __art_lst in dic.items():
+            
             st.write(__query, __art_lst[1])
             st.markdown(f":green[*Articles selected for query '{__query}': {len(__art_lst[0])} out of {__art_lst[1]}*]")
             for __art in __art_lst[0]:
