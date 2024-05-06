@@ -12,16 +12,24 @@ class Display():
     def __init__(self):
         self.__transl = Translate()
         self.__saveandload = SaveAndLoad()
-        self.tab1, self.tab2, self.tab3, self.tab4 = st.tabs(['Search results', 'Search terms', 'Classification parameters', 'Results archive'])
-        with self.tab4:
-            self.col1, self.col2 = st.columns([1,4])
+        #self.tab1, self.tab2, self.tab3, self.tab4 = st.tabs(['Search results', 'Search terms', 'Classification parameters', 'Results archive'])
+        #with self.tab4:
+            #self.col1, self.col2 = st.columns([1,4])
         self.__config_data = self.__saveandload.load_config_file()
         self.__searches_path = Path(os.path.join("resources", "saved_searches"))
 
-    def display_title(self):
+    def display_title(self, user):
         with st.sidebar:
             st.markdown('**MAF ASSISTANT**')
             st.markdown('A tool for automated pubmed searching')
+            self.is_new_user(user)        
+
+    def is_new_user(self, user):
+        params = get_params(user)
+        if params:
+            st.write(f'Welcome back {user} \n\n Not {user}?: please, reload to enter your username')
+        if not params:
+            st.write(f'Your username is not in our database, welcome to MAF Assistant, {user}!')
 
     def search_button(self):
         search_on = st.button("Start search", type="primary")
@@ -111,9 +119,6 @@ class Display():
         else:
             st.markdown(f"*No articles selected for query '{query}'*")
 
-    def set_user(self):
-        return st.text_input('Write your user name: ')
-
     def __append_search_term(self, user, user_params):
         __new_search_term = st.text_input('Add a new search term')
         if __new_search_term != "":
@@ -135,15 +140,19 @@ class Display():
     def show_search_terms(self, user):
         st.markdown('**Search terms**')
         __user_params = get_params(user)
-        if __user_params and user != '':
-            st.write(f'Welcome "{user}"')
-            for __term in __user_params['search_terms']:
-                st.text(__term)
-                st.divider()
-            self.__append_search_term(user, __user_params)
-            self.__remove_search_term(user, __user_params)
-        elif not __user_params or user == '':
-            st.write('Please enter your username')
+        st.write(__user_params)
+        if __user_params:
+            if 'search_terms' in __user_params.keys():
+                for __term in __user_params['search_terms']:
+                    st.text(__term)
+                    st.divider()
+        else:
+            __user_params = dict()
+            __user_params['search_terms'] = []
+            save_params(user, __user_params)
+        
+        self.__append_search_term(user, __user_params)
+        self.__remove_search_term(user, __user_params)
 
     def set_parameters(self, user):
         
@@ -157,20 +166,21 @@ class Display():
         
         __user_params = get_params(user)
 
-        if __user_params and user != '':
-            st.write(f'Welcome "{user}"')
-            for key, value in __user_params['selection_parameters'].items():
-                new_value = st.text_input(f"{dic[key]}:", value=value, key = key)
-                __user_params['selection_parameters'][key] = int(new_value)
-                save_params(user, __user_params)
-        elif not __user_params or user == '':
-            st.write('Please enter your username')
-            __user_params = dict()
-            for key, val in dic.items():
-                new_value = st.text_input(f"{val}:", value=0)
+        if __user_params:
+            if 'selection_parameters' in __user_params.keys():
+                for key, value in __user_params['selection_parameters'].items():
+                    new_value = st.text_input(f"{dic[key]}:", value=value, key = key)
+                    st.write(new_value)
+                    __user_params['selection_parameters'][key] = int(new_value)
+                    save_params(user, __user_params)
+            elif 'selection_parameters' not in __user_params.keys():
                 __user_params['selection_parameters'] = dict()
-                __user_params['selection_parameters'][key] = int(new_value)
-                save_params(user, __user_params)
+                for key, val in dic.items():
+                    new_value = st.text_input(f"{val}:", value=0)
+                    st.write(new_value)
+                    __user_params['selection_parameters'][key] = int(new_value)
+                    st.write(__user_params)
+                    save_params(user, __user_params)
 
 
 

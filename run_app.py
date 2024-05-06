@@ -4,37 +4,41 @@ from display_info import Display
 from search_pubmed import Search
 from config import SaveAndLoad
 from pathlib import Path
-
+from user_params import get_params
 import streamlit as st
 
 __configurations = Config()
 __configurations.instance()
-
-__query_list = cfg_item('search_terms')
-#__query_list = ["macitentan", "ambrisentan", "selexipag"]
-
 __displayer = Display()
 __searcher = Search()
 __saveandload = SaveAndLoad()
 
-__user = __displayer.set_user()
+def main(key):
+    __title_placeholder = st.title('Welcome to MAF Assistant')
+    __username_placeholder = st.empty()
+    __user = __username_placeholder.text_input('Please, enter your username: ', key = key)
+    __query_list = cfg_item('search_terms')
+    #__query_list = ["macitentan", "ambrisentan", "selexipag"]
 
-if __user:
+    if __user:
+        __displayer.display_title(__user)
+        show_display(__user, __query_list)
+        __username_placeholder.empty()
+        __title_placeholder.empty()   
 
-    __displayer.display_title()
-
-    with __displayer.tab1:
-
+def show_display(user, query_list):
+    tab1, tab2, tab3, tab4 = st.tabs(['Search results',
+                                      'Search terms',
+                                      'Classification parameters',
+                                      'Results archive'])
+    with tab1:
         __search_on = __displayer.search_button()
-
         while __search_on:
             print('Running search')
             __already_found = list()
-            for __query in __query_list:
+            for __query in query_list:
                 __selected, __n_found = __searcher.run_search(__query, is_programmed=False)
                 __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
-                #st.write('selected_clean: ', __selected_clean)
-                #st.write('already_found: ', __already_found)
                 __displayer.display_search_info(__query, __n_found, __selected_clean)
                 try:
                     for __tup in __selected_clean:
@@ -44,23 +48,26 @@ if __user:
             print('Search Done')
             __search_on = False
 
-    with __displayer.tab2:    
-        __displayer.show_search_terms(__user)
+    with tab2:    
+        __displayer.show_search_terms(user)
 
-    with __displayer.tab3:
-        __displayer.set_parameters(__user)
+    with tab3:
+        __displayer.set_parameters(user)
 
-    with __displayer.tab4:
+    with tab4:
+        col1, col2 = st.columns([1,4])
 
-        with __displayer.col1:
+        with col1:
             __filename = __displayer.history_buttons()
 
-        with __displayer.col2:
+        with col2:
             while __filename:
                 __history_dic = __saveandload.load_history_file(__filename)
                 __displayer.display_history_results(__history_dic)
                 __filename = False
 
+if __name__ == '__main__':
+    main('first')
 
 
 
