@@ -4,7 +4,7 @@ from display_info import Display
 from search_pubmed import Search
 from config import SaveAndLoad
 from pathlib import Path
-from user_params import get_params
+from user_params import get_params, get_searches
 import streamlit as st
 
 __configurations = Config()
@@ -58,13 +58,13 @@ def show_display(user, query_list):
         col1, col2 = st.columns([1,4])
 
         with col1:
-            __filename = __displayer.history_buttons()
-
+            __saved_search = __displayer.history_buttons(user)
         with col2:
-            while __filename:
-                __history_dic = __saveandload.load_history_file(__filename)
-                __displayer.display_history_results(__history_dic)
-                __filename = False
+            while __saved_search:
+                __history_dic = get_searches(user)
+                __day = __history_dic[__saved_search]
+                __displayer.display_history_results(__day)
+                __saved_search = False
 
 if __name__ == '__main__':
     main('first')

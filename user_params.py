@@ -3,6 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from config import cfg_item
 
+import streamlit as st
+
 # Set up database connection
 engine = create_engine('sqlite:///user_params.db')
 Base= declarative_base()
@@ -22,6 +24,7 @@ class UserParams(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(String)
     parameters = Column(JSON)
+    saved_searches = Column(JSON)
 
     def __init__(self, user_id, parameters):
         self.user_id = user_id
@@ -48,6 +51,23 @@ def save_params(user_id, params):
     session.commit()
     session.close()
 
+def save_searches(user_id, searches):
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    
+    # Check if user exists in the database
+    user_params = session.query(UserParams).filter_by(user_id=user_id).first()
+    if user_params:
+        # Update searches if user exists
+        user_params.saved_searches = searches
+    else:
+        # Create new entry if user doesn't exist
+        user_params = UserParams(user_id=user_id, parameters=searches)
+        session.add(user_params)
+    
+    session.commit()
+    session.close()
+
 # Function to retrieve parameters
 def get_params(user_id):
     Session = sessionmaker(bind= engine)
@@ -58,12 +78,20 @@ def get_params(user_id):
         return user_params.parameters
     else:
         return None
+    
+def get_searches(user_id):
+    Session = sessionmaker(bind= engine)
+    session = Session()
+    user_params = session.query(UserParams).filter_by(user_id=user_id).first()
+    session.close()
+    if user_params:
+        # st.write(user_params.saved_searches)
+        return user_params.saved_searches
+    else:
+        return None
+    
 
     
-    """ # Usage
-    user_id = 'user123'
-    params = {'param1': value1, 'param2': value2}
-    save_params(user_id, params)
-    retrieved_params = get_params(user_id) """
-        
+
+
         

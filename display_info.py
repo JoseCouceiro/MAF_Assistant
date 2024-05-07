@@ -5,7 +5,7 @@ import streamlit as st
 from metapub import FindIt
 from deepl_conect import Translate
 from config import SaveAndLoad
-from user_params import get_params, save_params
+from user_params import get_params, save_params, get_searches, save_searches
 
 class Display():
 
@@ -35,7 +35,8 @@ class Display():
         search_on = st.button("Start search", type="primary")
         return search_on
     
-    def history_buttons(self):
+    # delete if loading from database
+    def history_buttons_old(self):
         filenames = dict()
         clicked_buttons = []
         deleting_buttons = []
@@ -56,7 +57,22 @@ class Display():
         # Return clicked filenames
         if len(clicked_buttons) != 0:
             return filenames[clicked_buttons[0]]
-       
+    
+    def history_buttons(self, user):
+        clicked_buttons = []
+        deleting_buttons = []
+        __saved_searches = get_searches(user)
+        if __saved_searches:
+            for __n, __key in enumerate(__saved_searches.keys()):
+                button = st.button(f"{__key.replace('_', '/')}")
+                checkbox = st.checkbox('Delete', key=f'checkbox_{__n}')
+                if checkbox:
+                    deleting_buttons.append(__n)
+                    #st.error(f"File '{__file.name.split(".")[0]}' deleted, uncheck the 'Delete' checkbox before continuing")
+                    st.error('File "{}" deleted, uncheck the "Delete" checkbox before continuing'.format(__key.replace('_', '/')))
+                if button and not checkbox:
+                    clicked_buttons.append(__n)
+
     def __split_paragraphs(self, abst):
         pattern = r'\b([A-ZÁÉÍÓÚÜÑ\s]+\:)'
         splitted = re.split(pattern, abst)
@@ -87,8 +103,9 @@ class Display():
             except:
                 st.markdown('No open access')
 
-    def display_history_results(self, dic):
-        for __query, __art_lst in dic.items():
+    def display_history_results(self, dic, search):
+        print(search)
+        for __query, __art_lst in dic[search].items():
             st.markdown(f"*Articles selected for query '{__query}': {len(__art_lst)}*")
             for __art in __art_lst:
                 st.markdown(f"Article score: {__art['score']}")
