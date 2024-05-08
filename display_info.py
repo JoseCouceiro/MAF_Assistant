@@ -110,9 +110,8 @@ class Display():
             except:
                 st.markdown('No open access')
 
-    def display_history_results(self, dic, search):
-        st.write("displaying history results")
-        for __query, __art_lst in dic[search].items():
+    def display_history_results(self, dic):
+        for __query, __art_lst in dic.items():
             st.markdown(f"*Articles selected for query '{__query}': {len(__art_lst)}*")
             for __art in __art_lst:
                 st.markdown(f"Article score: {__art['score']}")

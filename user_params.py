@@ -3,8 +3,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from config import cfg_item
 
-import streamlit as st
-
 # Set up database connection
 engine = create_engine('sqlite:///user_params.db')
 Base= declarative_base()
@@ -80,13 +78,11 @@ def get_params(user_id):
         return None
     
 def get_searches(user_id):
-    st.write('getting searches')
     Session = sessionmaker(bind= engine)
     session = Session()
     user_params = session.query(UserParams).filter_by(user_id=user_id).first()
     session.close()
     if user_params:
-        # st.write(user_params.saved_searches)
         return user_params.saved_searches
     else:
         return None

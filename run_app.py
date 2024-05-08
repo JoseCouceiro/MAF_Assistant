@@ -59,11 +59,10 @@ def show_display(user, query_list):
 
         with col1:
             __saved_search = __displayer.history_buttons(user)
+            print('SAVED SEARCH: ', __saved_search)
         with col2:
-            if __saved_search:
-                __history_dic = get_searches(user)
-                __displayer.display_history_results(__history_dic)
-                __saved_search = False
+            if __saved_search:             
+                __displayer.display_history_results(__saved_search)
 
 if __name__ == '__main__':
     main('first')
