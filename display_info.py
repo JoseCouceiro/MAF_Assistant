@@ -72,6 +72,13 @@ class Display():
                     st.error('File "{}" deleted, uncheck the "Delete" checkbox before continuing'.format(__key.replace('_', '/')))
                 if button and not checkbox:
                     clicked_buttons.append(__n)
+            # Process delete actions after checking all buttons
+            for __n in deleting_buttons:
+                __saved_searches.pop(__key, None)
+            # Return clicked filenames
+            if len(clicked_buttons) != 0:
+                st.write(clicked_buttons)
+                return __saved_searches[__key]
 
     def __split_paragraphs(self, abst):
         pattern = r'\b([A-ZÁÉÍÓÚÜÑ\s]+\:)'
