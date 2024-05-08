@@ -77,7 +77,7 @@ class Display():
                 save_searches(user, __saved_searches)
             # Return clicked filenames
             if len(clicked_buttons) != 0:
-                return __saved_searches[__key]
+                return __saved_searches[clicked_buttons[0]]
 
     def __split_paragraphs(self, abst):
         pattern = r'\b([A-ZÁÉÍÓÚÜÑ\s]+\:)'

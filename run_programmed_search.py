@@ -10,10 +10,10 @@ __configurations.instance()
 __saveandload = SaveAndLoad()
 __database = DataBase()
 
-__date = __saveandload.today_str
+__date = "2025/05/09"#__saveandload.today_str
 
 #__query_list = cfg_item('search_terms')
-__query_list = ["macitentan"] #, "selexipag", "ambrisentan"]
+__query_list = ['ambrisentan'] #["macitentan", "selexipag", "ambrisentan"]
 
 __searcher = Search()
 
