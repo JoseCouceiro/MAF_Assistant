@@ -60,8 +60,10 @@ def show_display(user, query_list):
         with col1:
             __saved_search = __displayer.history_buttons(user)
         with col2:
-            while __saved_search:
+            if __saved_search:
+                st.write(__history_dic)
                 __history_dic = get_searches(user)
+                
                 __day = __history_dic[__saved_search]
                 __displayer.display_history_results(__day)
                 __saved_search = False

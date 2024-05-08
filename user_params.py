@@ -80,6 +80,7 @@ def get_params(user_id):
         return None
     
 def get_searches(user_id):
+    st.write('getting searches')
     Session = sessionmaker(bind= engine)
     session = Session()
     user_params = session.query(UserParams).filter_by(user_id=user_id).first()
