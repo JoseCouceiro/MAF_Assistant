@@ -67,17 +67,16 @@ class Display():
                 button = st.button(f"{__key.replace('_', '/')}")
                 checkbox = st.checkbox('Delete', key=f'checkbox_{__n}')
                 if checkbox:
-                    deleting_buttons.append(__n)
-                    #st.error(f"File '{__file.name.split(".")[0]}' deleted, uncheck the 'Delete' checkbox before continuing")
-                    st.error('File "{}" deleted, uncheck the "Delete" checkbox before continuing'.format(__key.replace('_', '/')))
+                    deleting_buttons.append(__key)
+                    st.error("File '{}' deleted, uncheck the 'Delete' checkbox before continuing".format(__key.replace('_', '/')))
                 if button and not checkbox:
-                    clicked_buttons.append(__n)
+                    clicked_buttons.append(__key)
             # Process delete actions after checking all buttons
-            for __n in deleting_buttons:
+            for __key in deleting_buttons:
                 __saved_searches.pop(__key, None)
+                save_searches(user, __saved_searches)
             # Return clicked filenames
             if len(clicked_buttons) != 0:
-                st.write(clicked_buttons)
                 return __saved_searches[__key]
 
     def __split_paragraphs(self, abst):

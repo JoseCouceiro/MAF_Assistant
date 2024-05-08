@@ -13,7 +13,7 @@ __database = DataBase()
 __date = __saveandload.today_str
 
 #__query_list = cfg_item('search_terms')
-__query_list = ["macitentan", "selexipag", "ambrisentan"]
+__query_list = ["macitentan"] #, "selexipag", "ambrisentan"]
 
 __searcher = Search()
 
