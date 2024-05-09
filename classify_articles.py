@@ -39,13 +39,12 @@ class Classify():
     def __is_in_vitro(self, art):
         __iv_words = ['dog', 'rat', 'in vitro', 'genomic', 'metabolomic']
         __in_vitro = False
-        for word in __iv_words:
-            if word in art.abstract.lower():
-                __in_vitro = True
-        return __in_vitro
+        if art.abstract != None:
+            for word in __iv_words:
+                return True if word in art.abstract.lower() else False
     
     def __is_case_report(self, art):
-        return True if 'case report' in art.title else False
+        return True if 'case report' in art.title.lower() else False
     
     def __is_in_english(self, art):
         pattern = r'^\[(.*?)\]\.'
@@ -53,7 +52,7 @@ class Classify():
         return True if found else False
         
     def rater(self, art, query, user):
-        __user_params = get_params(user)
+        __user_params = get_params(user)['selection_parameters']
         __affiliations_set = self.__get_affiliations(art)
         __score = 0
         print('article: ', art)

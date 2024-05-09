@@ -12,8 +12,7 @@ __database = DataBase()
 
 __date = "2025/05/09"#__saveandload.today_str
 
-#__query_list = cfg_item('search_terms')
-__query_list = ['ambrisentan'] #["macitentan", "selexipag", "ambrisentan"]
+#__query_list = ['ambrisentan'] #["macitentan", "selexipag", "ambrisentan"]
 
 __searcher = Search()
 
@@ -22,12 +21,13 @@ __programmed_search_on = True
 
 while __programmed_search_on:
     __user = input('Introduce your username: ')
+    __query_list = get_params(__user)['search_terms']
     if __user:
         print('Running search')
         __results_dic = dict()
         __already_found = list()
         for __query in __query_list:
-            __selected, __rejected, __n_found = __searcher.run_search(__query, is_programmed=True)
+            __selected, __rejected, __n_found = __searcher.run_search(__query, __user, is_programmed=True)
             __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
             print(f'{len(__selected)} selected out of {__n_found} found')
             __selected_dics = __searcher.transform_article_list(__selected_clean) 

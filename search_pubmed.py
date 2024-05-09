@@ -20,7 +20,7 @@ class Search:
         print(f'({query}[Title/Abstract]) AND ("{self.__params.start_date_str}"[Date - Publication] : "{self.__params.end_date_str}"[Date - Publication])')
         return pmids
 
-    def __fetch_articles(self, pmids_list, query, is_programmed):
+    def __fetch_articles(self, pmids_list, query, user, is_programmed):
         __selected = list()
         __rejected = list()
         for pmid in pmids_list:
@@ -28,7 +28,7 @@ class Search:
                 __article = self.__fetcher.article_by_pmid(int(pmid))
             except:
                 st.error(f'Metapub exception: PMID {int(pmid)} not found')
-            __pass, __score =  self.__classifier.rater(__article, query)
+            __pass, __score =  self.__classifier.rater(__article, query, user)
             if __pass:
                 __selected.append((__article, __score, __pass))
             if not __pass:
@@ -54,12 +54,12 @@ class Search:
             transformed_art_list.append(__art_dic)
         return transformed_art_list
 
-    def run_search(self, query, is_programmed):
+    def run_search(self, query, user, is_programmed):
         print(query)
         __pmids = self.__search_pubmed(query)
         __n_found = len(__pmids)
         print('Number of articles found: ', len(__pmids))
-        __selected, __rejected = self.__fetch_articles(__pmids, query, is_programmed)
+        __selected, __rejected = self.__fetch_articles(__pmids, query, user, is_programmed)
         if not is_programmed:
             return __selected, __n_found
         if is_programmed:
