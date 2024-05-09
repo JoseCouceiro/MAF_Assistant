@@ -22,33 +22,6 @@
         "uk",
         "usa"
     ],
-    "selection_parameters": {
-        "query_in_title": 10,
-        "is_rct": 2,
-        "made_in_spain": 2,
-        "is_meta_analysis": 1,
-        "from_countries": 1,
-        "threshold": 2
-    },
-    "search_terms": [
-        "Congenital heart disease AND pulmonary hypertension",
-        "Cardiopulmonary exercise test AND pulmonary hypertension",
-        "Systemic sclerosis AND pulmonary hypertension",
-        "Connective tissue disease AND pulmonary hypertension",
-        "pulmonary hypertension",
-        "pediatric pulmonary hypertension",
-        "pulmonary arterial hypertension",
-        "macitentan",
-        "selexipag",
-        "ambrisentan",
-        "bosentan",
-        "sotatercept",
-        "riociguat",
-        "portopulmonary hypertension AND pulmonary hypertension",
-        "echocardiography AND pulmonary hypertension",
-        "CPET AND pulmonary hypertension",
-        "PAH"
-    ],
     "programmed_search": {
         "programmed_search_done": false,
         "day_of_search": 0,

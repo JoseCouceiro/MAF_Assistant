@@ -1,4 +1,6 @@
+import re
 from config import cfg_item
+from user_params import save_params, get_params
 
 class Classify():
 
@@ -33,25 +35,48 @@ class Classify():
             if len(__auth.affiliations) != 0:
                 __affiliations_set.add(__auth.affiliations[0].split()[-1].strip('.').lower())
         return __affiliations_set
+    
+    def __is_in_vitro(self, art):
+        __iv_words = ['dog', 'rat', 'in vitro', 'genomic', 'metabolomic']
+        __in_vitro = False
+        for word in __iv_words:
+            if word in art.abstract.lower():
+                __in_vitro = True
+        return __in_vitro
+    
+    def __is_case_report(self, art):
+        return True if 'case report' in art.title else False
+    
+    def __is_in_english(self, art):
+        pattern = r'^\[(.*?)\]\.'
+        found = re.search(pattern, art.title)
+        return True if found else False
         
-    def rater(self, art, query):
+    def rater(self, art, query, user):
+        __user_params = get_params(user)
         __affiliations_set = self.__get_affiliations(art)
         __score = 0
         print('article: ', art)
-        __thresh = cfg_item('selection_parameters', 'threshold')
+        __thresh = __user_params['threshold']
         if self.__query_in_title_func(art, query):
-            __score = cfg_item('selection_parameters', 'query_in_title')
+            __score = __user_params['query_in_title']
         if self.__from_countries_func(__affiliations_set):
-            __score += cfg_item('selection_parameters', 'from_countries')
+            __score += __user_params['from_countries']
         if self.__is_rct_func(art):
-            __score += cfg_item('selection_parameters', 'is_rct')
-            print('is_rct', __score)
+            __score += __user_params['is_rct']
         if self.__made_in_spain_func(__affiliations_set):
-            __score += cfg_item('selection_parameters', 'made_in_spain')
-            print('made_in_spain', __score)
+            __score += __user_params['made_in_spain']
         if self.__is_meta_analysis_func(art):
-            __score += cfg_item('selection_parameters', 'is_meta_analysis')
-            print('is_meta_analysis', __score)
+            __score += __user_params['is_meta_analysis']
+        elif not self.__made_in_spain_func(__affiliations_set):
+            if self.__is_case_report(art):
+                __score -= __user_params['is_case_report']
+        if self.__is_in_vitro(art):
+            __score -= __user_params['is_in_vitro']
+        if not self.__is_in_english(art):
+            __score -= __user_params['not_in_english']
+
+        
         print('Article score: ', __score)
         print('Threshold: ', __thresh)
         print('Selected: ', __score >= __thresh)

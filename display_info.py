@@ -35,29 +35,6 @@ class Display():
         search_on = st.button("Start search", type="primary")
         return search_on
     
-    # delete if loading from database
-    def history_buttons_old(self):
-        filenames = dict()
-        clicked_buttons = []
-        deleting_buttons = []
-        for __n, __file in enumerate(self.__searches_path.iterdir()): 
-            filenames[__n] = __file.name.split('.')[0]
-            button = st.button(f"{filenames[__n].replace('_', '/')}")
-            checkbox = st.checkbox('Delete', key=f'checkbox_{__n}')
-            if checkbox:
-                deleting_buttons.append(__n)
-                #st.error(f"File '{__file.name.split(".")[0]}' deleted, uncheck the 'Delete' checkbox before continuing")
-                st.error('File "{}" deleted, uncheck the "Delete" checkbox before continuing'.format(__file.name.split('.')[0]))
-            if button and not checkbox:
-                clicked_buttons.append(__n)
-        # Process delete actions after checking all buttons
-        for __n in deleting_buttons:
-            filename = filenames[__n] + '.json'
-            os.remove(os.path.join(self.__searches_path, filename))
-        # Return clicked filenames
-        if len(clicked_buttons) != 0:
-            return filenames[clicked_buttons[0]]
-    
     def history_buttons(self, user):
         clicked_buttons = []
         deleting_buttons = []
@@ -162,7 +139,6 @@ class Display():
     def show_search_terms(self, user):
         st.markdown('**Search terms**')
         __user_params = get_params(user)
-        st.write(__user_params)
         if __user_params:
             if 'search_terms' in __user_params.keys():
                 for __term in __user_params['search_terms']:
@@ -177,13 +153,15 @@ class Display():
         self.__remove_search_term(user, __user_params)
 
     def set_parameters(self, user):
-        
         st.markdown('**Classification parameters**')
         dic = {'query_in_title': 'The query is in the title',
                 'is_rct': 'There is an rct in the journal',
                 'made_in_spain' : 'The journal was made in Spain',
-                'is_meta_analysis' : 'The journal is a meta_analysis',
+                'is_meta_analysis' : 'The journal is a meta-analysis',
                 'from_countries' : 'The authors of the journal are from the countries of interest',
+                'is_case_report': 'The article is a case report',
+                'is_in_vitro': 'The article describes advances only in laboratory settings',
+                'not_in_english': 'The article is not in English',
                 'threshold' : 'The journal should score above this value'}
         
         __user_params = get_params(user)
@@ -192,16 +170,13 @@ class Display():
             if 'selection_parameters' in __user_params.keys():
                 for key, value in __user_params['selection_parameters'].items():
                     new_value = st.text_input(f"{dic[key]}:", value=value, key = key)
-                    st.write(new_value)
                     __user_params['selection_parameters'][key] = int(new_value)
                     save_params(user, __user_params)
             elif 'selection_parameters' not in __user_params.keys():
                 __user_params['selection_parameters'] = dict()
                 for key, val in dic.items():
                     new_value = st.text_input(f"{val}:", value=0)
-                    st.write(new_value)
                     __user_params['selection_parameters'][key] = int(new_value)
-                    st.write(__user_params)
                     save_params(user, __user_params)
 
 
