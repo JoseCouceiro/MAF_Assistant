@@ -1,13 +1,8 @@
-from config import Config
-from config import cfg_item
 from display_info import Display
 from search_pubmed import Search
-from pathlib import Path
-from user_params import get_params, get_searches
+from user_params import get_params
 import streamlit as st
 
-__configurations = Config()
-__configurations.instance()
 __displayer = Display()
 __searcher = Search()
 
@@ -64,7 +59,6 @@ def show_display(user, query_list):
 
         with col1:
             __saved_search = __displayer.history_buttons(user)
-            print('SAVED SEARCH: ', __saved_search)
         with col2:
             if __saved_search:             
                 __displayer.display_history_results(__saved_search)
