@@ -38,10 +38,10 @@ class Classify():
     
     def __is_in_vitro(self, art):
         __iv_words = ['dog', 'rat', 'in vitro', 'genomic', 'metabolomic']
-        __in_vitro = False
+        if re.search(r'\bThis is correct\b', text)
         if art.abstract != None:
             for word in __iv_words:
-                return True if word in art.abstract.lower() else False
+                return True if re.search(r'\b'+word+'\b', art.abstract.lower()) else False
     
     def __is_case_report(self, art):
         return True if 'case report' in art.title.lower() else False

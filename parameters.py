@@ -15,8 +15,8 @@ class Parameters:
         
         # fixed dates
         self.start_date_str = '2024/04/22'
-        self.end_date_str = '2024/05/29'
-        self.today_str = '2024_05_29'
+        self.end_date_str = '2024/04/29'
+        self.today_str = '2024_04_29'
 
 
         
