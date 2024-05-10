@@ -38,7 +38,6 @@ class Classify():
     
     def __is_in_vitro(self, art):
         __iv_words = ['dog', 'rat', 'in vitro', 'genomic', 'metabolomic']
-        if re.search(r'\bThis is correct\b', text)
         if art.abstract != None:
             for word in __iv_words:
                 return True if re.search(r'\b'+word+'\b', art.abstract.lower()) else False
@@ -49,7 +48,7 @@ class Classify():
     def __is_in_english(self, art):
         pattern = r'^\[(.*?)\]\.'
         found = re.search(pattern, art.title)
-        return True if found else False
+        return False if found else True
         
     def rater(self, art, query, user):
         __user_params = get_params(user)['selection_parameters']
@@ -58,21 +57,29 @@ class Classify():
         print('article: ', art)
         __thresh = __user_params['threshold']
         if self.__query_in_title_func(art, query):
+            print('THE QUERY IS IN THE TITLE')
             __score = __user_params['query_in_title']
         if self.__from_countries_func(__affiliations_set):
+            print('IT IS FROM COUNTRIES OF INTEREST')
             __score += __user_params['from_countries']
         if self.__is_rct_func(art):
+            print('IT IS AN RCT')
             __score += __user_params['is_rct']
         if self.__made_in_spain_func(__affiliations_set):
+            print('MADE IN SPAIN')
             __score += __user_params['made_in_spain']
         if self.__is_meta_analysis_func(art):
+            print('IT IS META-ANALYSIS')
             __score += __user_params['is_meta_analysis']
         if not self.__made_in_spain_func(__affiliations_set):
             if self.__is_case_report(art):
+                print('IT IS A CASE REPORT')
                 __score += __user_params['is_case_report']
         if self.__is_in_vitro(art):
+            print('IT IS IN VITRO')
             __score += __user_params['is_in_vitro']
         if not self.__is_in_english(art):
+            print('IT IS NOT IN ENGLISH')
             __score += __user_params['not_in_english']
 
         
