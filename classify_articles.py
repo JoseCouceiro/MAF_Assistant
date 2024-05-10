@@ -67,13 +67,13 @@ class Classify():
             __score += __user_params['made_in_spain']
         if self.__is_meta_analysis_func(art):
             __score += __user_params['is_meta_analysis']
-        elif not self.__made_in_spain_func(__affiliations_set):
+        if not self.__made_in_spain_func(__affiliations_set):
             if self.__is_case_report(art):
-                __score -= __user_params['is_case_report']
+                __score += __user_params['is_case_report']
         if self.__is_in_vitro(art):
-            __score -= __user_params['is_in_vitro']
+            __score += __user_params['is_in_vitro']
         if not self.__is_in_english(art):
-            __score -= __user_params['not_in_english']
+            __score += __user_params['not_in_english']
 
         
         print('Article score: ', __score)

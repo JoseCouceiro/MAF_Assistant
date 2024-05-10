@@ -10,7 +10,7 @@ __configurations.instance()
 __saveandload = SaveAndLoad()
 __database = DataBase()
 
-__date = "2024/05/06"#__saveandload.today_str
+__date = "2024/04/29"#__saveandload.today_str
 
 #__query_list = ['ambrisentan'] #["macitentan", "selexipag", "ambrisentan"]
 
