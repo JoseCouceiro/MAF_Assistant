@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from config import cfg_item
 
 # Set up database connection
-db_uri = 'mysql+pymysql://maf-assistant-user:mafcloud@34.175.46.121/user_params'
+db_uri = 'mysql+pymysql://sql7708417:VtxITqbq6b@sql7.freesqldatabase.com:3306/sql7708417'
 engine = create_engine(db_uri)
 Base= declarative_base()
 
