@@ -10,7 +10,7 @@ __configurations.instance()
 __saveandload = SaveAndLoad()
 __database = DataBase()
 
-__date = "2025/05/13" #__saveandload.today_str
+__date = "2025/05/20" #__saveandload.today_str
 
 __searcher = Search()
 
@@ -19,8 +19,8 @@ __programmed_search_on = True
 
 while __programmed_search_on:
     __user = input('Introduce your username: ')
-    #__query_list = get_params(__user)['search_terms']
-    __query_list = ['ambrisentan'] #["macitentan", "selexipag", "ambrisentan"]
+    __query_list = get_params(__user)['search_terms']
+    #__query_list = ['ambrisentan'] #["macitentan", "selexipag", "ambrisentan"]
     if __user:
         print('Running search')
         __results_dic = dict()

@@ -14,9 +14,9 @@ class Parameters:
         self.day_week = datetime.weekday(self.__end_date)
         
         # fixed dates
-        self.start_date_str = '2024/05/06'
-        self.end_date_str = '2024/05/13'
-        self.today_str = '2024_05_13'
+        self.start_date_str = '2024/05/13'
+        self.end_date_str = '2024/05/20'
+        self.today_str = '2024_05_20'
 
 
         
