@@ -14,8 +14,8 @@ __query_list = cfg_item('search_terms')
 
 __searcher = Search()
 
-__programmed_search_on = __searcher.run_programmed_search()
-#__programmed_search_on = True
+#__programmed_search_on = __searcher.run_programmed_search()
+__programmed_search_on = True
 
 while __programmed_search_on:
     __results_dic = dict()
