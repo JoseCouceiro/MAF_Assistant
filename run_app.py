@@ -15,6 +15,7 @@ def main(key):
 
     if __user:
         __user_params = get_params(__user)
+        print('USER_PARAMS: ', __user_params, type(__user_params))
         if __user_params:
             __query_list = __user_params['search_terms']
         else:

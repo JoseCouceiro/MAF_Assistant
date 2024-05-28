@@ -58,19 +58,20 @@ def save_params(user_id, params):
     
     try:
         # Serialize the params dictionary to a JSON string
-        params_json = json.dumps(params)
+        if params:
+            params_json = json.dumps(params)
+        else:
+            params_json = None
         
         # Check if user exists in the database
         user_params = session.query(UserParams).filter_by(user_id=user_id).first()
         if user_params:
             # Update params if user exists
-            if user_params.parameters:
-                user_params.parameters = params_json
-            else:
-                params_json = None
+            user_params.parameters = params_json
+
         else:
             # Create new entry if user doesn't exist
-            user_params = UserParams(user_id=user_id, saved_params=params_json)
+            user_params = UserParams(user_id=user_id, parameters=params_json)
             session.add(user_params)
         
         session.commit()
@@ -103,7 +104,10 @@ def save_searches(user_id, searches):
     
     try:
         # Serialize the searches dictionary to a JSON string
-        searches_json = json.dumps(searches)
+        if searches:
+            searches_json = json.dumps(searches, ensure_ascii=True)
+        else:
+            searches_json = None
         
         # Check if user exists in the database
         user_params = session.query(UserParams).filter_by(user_id=user_id).first()
@@ -142,8 +146,8 @@ def get_params(user_id):
     try:
         user_params = session.query(UserParams).filter_by(user_id=user_id).first()
         if user_params:
-            # Deserialize the JSON string back into a dictionary
             if user_params.parameters:
+            # Deserialize the JSON string back into a dictionary
                 parameters = json.loads(user_params.parameters)
                 return parameters
             else:
