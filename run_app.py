@@ -1,10 +1,12 @@
 from display_info import Display
 from search_pubmed import Search
+from config import cfg_item
 from user_params import get_params
 import streamlit as st
 
 __displayer = Display()
 __searcher = Search()
+__class_params = cfg_item("classification_parameters")
 
 def main(key):
     __title_placeholder = st.title('Welcome to MAF Assistant')
@@ -53,7 +55,7 @@ def show_display(user, query_list):
         __displayer.show_search_terms(user)
 
     with tab3:
-        __displayer.set_parameters(user)
+        __displayer.set_parameters(user, __class_params)
 
     with tab4:
         col1, col2 = st.columns([1,4])

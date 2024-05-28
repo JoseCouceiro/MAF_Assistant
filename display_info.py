@@ -4,19 +4,19 @@ from pathlib import Path
 import streamlit as st
 from metapub import FindIt
 from deepl_conect import Translate
-from config import SaveAndLoad
+#from config import SaveAndLoad
 from user_params import get_params, save_params, get_searches, save_searches
 
 class Display():
 
     def __init__(self):
         self.__transl = Translate()
-        self.__saveandload = SaveAndLoad()
+        #self.__saveandload = SaveAndLoad()
         #self.tab1, self.tab2, self.tab3, self.tab4 = st.tabs(['Search results', 'Search terms', 'Classification parameters', 'Results archive'])
         #with self.tab4:
             #self.col1, self.col2 = st.columns([1,4])
-        self.__config_data = self.__saveandload.load_config_file()
-        self.__searches_path = Path(os.path.join("resources", "saved_searches"))
+        """ self.__config_data = self.__saveandload.load_config_file()
+        self.__searches_path = Path(os.path.join("resources", "saved_searches")) """
 
     def display_title(self, user):
         with st.sidebar:
@@ -152,9 +152,9 @@ class Display():
         self.__append_search_term(user, __user_params)
         self.__remove_search_term(user, __user_params)
 
-    def set_parameters(self, user):
+    def set_parameters(self, user, dic):
         st.markdown('**Classification parameters**')
-        dic = {'query_in_title': 'The query is in the title',
+        """ dic = {'query_in_title': 'The query is in the title',
                 'is_rct': 'There is an rct in the journal',
                 'made_in_spain' : 'The journal was made in Spain',
                 'is_meta_analysis' : 'The journal is a meta-analysis',
@@ -162,7 +162,7 @@ class Display():
                 'is_case_report': 'The article is a case report',
                 'is_in_vitro': 'The article describes advances only in laboratory settings',
                 'not_in_english': 'The article is not in English',
-                'threshold' : 'The journal should score above this value'}
+                'threshold' : 'The journal should score above this value'} """
         
         __user_params = get_params(user)
 

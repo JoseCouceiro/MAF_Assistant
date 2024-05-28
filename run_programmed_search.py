@@ -10,7 +10,7 @@ __configurations.instance()
 __saveandload = SaveAndLoad()
 __database = DataBase()
 
-__date = "2025/05/27" #__saveandload.today_str
+__date = "2025/06/13" #__saveandload.today_str
 
 __searcher = Search()
 
@@ -20,7 +20,9 @@ __programmed_search_on = True
 while __programmed_search_on:
     __user = input('Introduce your username: ')
     __query_list = get_params(__user)['search_terms']
-    #__query_list = ['ambrisentan'] #["macitentan", "selexipag", "ambrisentan"]
+    #__query_list = ["macitentan", "selexipag", "ambrisentan", "bosentan", "sotatercept", "riociguat"]
+    #__query_list = ["Congenital heart disease AND pulmonary hypertension", "Cardiopulmonary exercise test AND pulmonary hypertension", "Systemic sclerosis AND pulmonary hypertension", "Connective tissue disease AND pulmonary hypertension", "pulmonary hypertension", "pediatric pulmonary hypertension", "pulmonary arterial hypertension", "macitentan", "selexipag", "ambrisentan", "bosentan", "sotatercept", "riociguat", "portopulmonary hypertension AND pulmonary hypertension", "echocardiography AND pulmonary hypertension", "CPET AND pulmonary hypertension", "PAH"]
+    
     if __user:
         print('Running search')
         __results_dic = dict()

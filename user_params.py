@@ -35,23 +35,6 @@ class UserParams(Base):
 Base.metadata.create_all(engine)
 
 # Function to save parameters
-""" def save_params(user_id, params):
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    
-    # Check if user exists in the database
-    user_params = session.query(UserParams).filter_by(user_id=user_id).first()
-    if user_params:
-        # Update parameters if user exists
-        user_params.parameters = params
-    else:
-        # Create new entry if user doesn't exist
-        user_params = UserParams(user_id=user_id, parameters=params)
-        session.add(user_params)
-    
-    session.commit()
-    session.close() """
-
 def save_params(user_id, params):
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -81,23 +64,6 @@ def save_params(user_id, params):
     finally:
         session.close()
 
-""" def save_searches(user_id, searches):
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    
-    # Check if user exists in the database
-    user_params = session.query(UserParams).filter_by(user_id=user_id).first()
-    if user_params:
-        # Update searches if user exists
-        user_params.saved_searches = searches
-    else:
-        # Create new entry if user doesn't exist
-        user_params = UserParams(user_id=user_id, parameters=searches)
-        session.add(user_params)
-    
-    session.commit()
-    session.close() """
-
 def save_searches(user_id, searches):
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -126,23 +92,10 @@ def save_searches(user_id, searches):
     finally:
         session.close()
 
-
-
 # Function to retrieve parameters
-""" def get_params(user_id):
-    Session = sessionmaker(bind= engine)
-    session = Session()
-    user_params = session.query(UserParams).filter_by(user_id=user_id).first()
-    session.close()
-    if user_params:
-        return user_params.parameters
-    else:
-        return None """
-
 def get_params(user_id):
     Session = sessionmaker(bind=engine)
     session = Session()
-    
     try:
         user_params = session.query(UserParams).filter_by(user_id=user_id).first()
         if user_params:
@@ -158,17 +111,6 @@ def get_params(user_id):
         raise e
     finally:
         session.close()
-
-
-""" def get_searches(user_id):
-    Session = sessionmaker(bind= engine)
-    session = Session()
-    user_params = session.query(UserParams).filter_by(user_id=user_id).first()
-    session.close()
-    if user_params:
-        return user_params.saved_searches
-    else:
-        return None """
 
 def get_searches(user_id):
     Session = sessionmaker(bind=engine)

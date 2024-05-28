@@ -30,7 +30,7 @@ class SaveAndLoad:
             json.dump(data, __f, indent=4)
         print('Config file saved')
 
-    def save_history_file(self, data):
+    """ def save_history_file(self, data):
         with open(os.path.join(self.__history_path, self.today_str+'.json'), 'w') as __f:
             json.dump(data, __f)
         print('New history file saved')
@@ -39,7 +39,7 @@ class SaveAndLoad:
         with open(os.path.join(self.__history_path, filename+'.json'), 'r') as __f:
             print(os.path.join(self.__history_path, filename+'.json'))
             __data = json.load(__f)
-        return __data
+        return __data """
 
 class DataBase:
 
