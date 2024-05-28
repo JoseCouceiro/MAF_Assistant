@@ -10,7 +10,7 @@ __configurations.instance()
 __saveandload = SaveAndLoad()
 __database = DataBase()
 
-__date = "2025/06/13" #__saveandload.today_str
+__date = "2024/05/20" #__saveandload.today_str
 
 __searcher = Search()
 
@@ -34,7 +34,7 @@ while __programmed_search_on:
             __selected_dics = __searcher.transform_article_list(__selected_clean) 
             __rejected_dics = __searcher.transform_article_list(__rejected)
             
-            __results_dic[__query] = __selected_dics
+            __results_dic[__query] = (__selected_dics, __n_found)
 
             __database.save_to_database(__selected_dics)  
             __database.save_to_database(__rejected_dics)

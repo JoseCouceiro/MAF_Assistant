@@ -54,7 +54,8 @@ class Display():
                 save_searches(user, __saved_searches)
             # Return clicked filenames
             if len(clicked_buttons) != 0:
-                return __saved_searches[clicked_buttons[0]]
+                print(clicked_buttons[0])
+                return (__saved_searches[clicked_buttons[0]], clicked_buttons[0])
 
     def __split_paragraphs(self, abst):
         pattern = r'\b([A-ZÁÉÍÓÚÜÑ\s]+\:)'
@@ -86,10 +87,10 @@ class Display():
             except:
                 st.markdown('No open access')
 
-    def display_history_results(self, dic):
-        for __query, __art_lst in dic.items():
-            st.markdown(f"*Articles selected for query '{__query}': {len(__art_lst)}*")
-            for __art in __art_lst:
+    def display_history_results(self, dup):
+        for __query, __art_dup in dup[0].items():
+            st.markdown(f":green[*Articles selected for query '{__query}' on {dup[1]}: {len(__art_dup[0])} out of {__art_dup[1]}*]")
+            for __art in __art_dup[0]:
                 st.markdown(f"Article score: {__art['score']}")
                 st.markdown(f"**{__art['title']}**")
                 st.markdown(__art['authors_str'])
