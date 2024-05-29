@@ -89,7 +89,7 @@ class Display():
 
     def display_history_results(self, dup):
         for __query, __art_dup in dup[0].items():
-            st.markdown(f":green[*trial Articles selected for query '{__query}' on {dup[1]}: {len(__art_dup[0])} out of {__art_dup[1]}*]")
+            st.markdown(f":green[*Articles selected for query '{__query}' on {dup[1]}: {len(__art_dup[0])} out of {__art_dup[1]}*]")
             for __art in __art_dup[0]:
                 st.markdown(f"Article score: {__art['score']}")
                 st.markdown(f"**{__art['title']}**")
