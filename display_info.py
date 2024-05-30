@@ -20,16 +20,16 @@ class Display():
 
     def display_title(self, user):
         with st.sidebar:
-            st.markdown('**MAF ASSISTANT**')
-            st.markdown('A tool for automated pubmed searching')
+            st.image(os.path.join('resources','images','logo.png'))
             self.is_new_user(user)        
 
     def is_new_user(self, user):
         params = get_params(user)
         if params:
-            st.write(f'Welcome back {user} \n\n Not {user}?: please, reload to enter your username')
+            st.markdown(f"Welcome back :orange['{user}']")
+            st.markdown(f":orange[Not '{user}'?]: please, reload the page to enter your username")
         if not params:
-            st.write(f'Your username is not in our database, welcome to MAF Assistant, {user}!')
+            st.markdown(f"Your username is not in our database, welcome to MAF Assistant, '{user}'!")
 
     def search_button(self):
         search_on = st.button("Start search", type="primary")

@@ -12,12 +12,8 @@ def main(key):
     __title_placeholder = st.title('Welcome to MAF Assistant')
     __username_placeholder = st.empty()
     __user = __username_placeholder.text_input('Please, enter your username: ', key = key)
-    
-    #__query_list = ["macitentan", "ambrisentan", "selexipag"]
-
     if __user:
         __user_params = get_params(__user)
-        print('USER_PARAMS: ', __user_params, type(__user_params))
         if __user_params:
             __query_list = __user_params['search_terms']
         else:
