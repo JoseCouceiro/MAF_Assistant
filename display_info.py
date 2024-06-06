@@ -40,7 +40,7 @@ class Display():
         deleting_buttons = []
         __saved_searches = get_searches(user)
         if __saved_searches:
-            for __n, __key in enumerate(__saved_searches.keys()):
+            for __n, __key in enumerate(sorted(__saved_searches.keys())):
                 button = st.button(f"{__key.replace('_', '/')}")
                 checkbox = st.checkbox('Delete', key=f'checkbox_{__n}')
                 if checkbox:

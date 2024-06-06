@@ -13,9 +13,6 @@ db_user = database_data['user']
 db_password = database_data['password']
 db_port_number = database_data['port_number']
 db_uri = f'mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port_number}/{db_name}'
-#db_uri = 'mysql+pymysql://sql7708417:VtxITqbq6b@sql7.freesqldatabase.com:3306/sql7708417'
-         #'mysql+pymysql://sql7708417:VtxITqbq6b.freesqldatabase.com:3306/sql7708417
-print('DB_URI***************: ', db_uri)
 engine = create_engine(db_uri)
 Base= declarative_base()
 

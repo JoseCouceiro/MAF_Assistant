@@ -10,7 +10,7 @@ __configurations.instance()
 __saveandload = SaveAndLoad()
 __database = DataBase()
 
-__date = "2024/05/20" #__saveandload.today_str
+__date = "2024/05/27" #__saveandload.today_str
 
 __searcher = Search()
 
