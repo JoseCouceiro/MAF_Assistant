@@ -92,7 +92,7 @@ class Display():
             st.markdown(f":green[*Articles selected for query '{__query}' on {dup[1]}: {len(__art_dup[0])} out of {__art_dup[1]}*]")
             for __art in __art_dup[0]:
                 st.markdown(f"Article score: {__art['score']}")
-                st.markdown(f":orange[**{__art['title']}**]")
+                st.markdown(f":red[**{__art['title']}**]")
                 st.markdown(__art['authors_str'])
                 st.markdown(f"https://doi.org/{__art['doi']}")
                 if __art['abstract'] != None:
