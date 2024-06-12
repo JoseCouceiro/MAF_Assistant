@@ -75,7 +75,7 @@ class Display():
                     st.markdown(self.__transl.translate_to_sp(__splitted))
                 except:
                     st.error('DeepL translation quota exceeded')
-                    st.markdown(__splitted)
+                st.markdown(__splitted)
             try:
                 __src = FindIt(str(__art.pmid))
                 if __src.url:
@@ -92,16 +92,12 @@ class Display():
             st.markdown(f":green[*Articles selected for query '{__query}' on {dup[1]}: {len(__art_dup[0])} out of {__art_dup[1]}*]")
             for __art in __art_dup[0]:
                 st.markdown(f"Article score: {__art['score']}")
-                st.markdown(f"**{__art['title']}**")
+                st.markdown(f":orange[**{__art['title']}**]")
                 st.markdown(__art['authors_str'])
                 st.markdown(f"https://doi.org/{__art['doi']}")
                 if __art['abstract'] != None:
                     __splitted = self.__split_paragraphs(__art['abstract'])
-                    try:
-                        st.markdown(self.__transl.translate_to_sp(__splitted))
-                    except:
-                        st.error('DeepL translation quota exceeded')
-                        st.markdown(__splitted)
+                    st.markdown(__splitted)
                 try:
                     __src = FindIt(str(__art['pmid']))
                     if __src.url:

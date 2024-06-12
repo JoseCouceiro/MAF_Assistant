@@ -36,7 +36,7 @@ def show_display(user, query_list):
             if len(query_list) == 0:
                 st.error('Please, add some search terms')
             for __query in query_list:
-                __selected, __n_found = __searcher.run_search(__query, is_programmed=False)
+                __selected, __n_found = __searcher.run_search(__query, user, is_programmed=False)
                 __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
                 __displayer.display_search_info(__query, __n_found, __selected_clean)
                 try:

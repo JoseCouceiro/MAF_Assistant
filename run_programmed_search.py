@@ -2,6 +2,7 @@ from config import Config
 from config import cfg_item
 from config import SaveAndLoad
 from config import DataBase
+from deepl_conect import Translate
 from user_params import save_searches, get_searches, get_params
 from search_pubmed import Search
 
@@ -9,13 +10,16 @@ __configurations = Config()
 __configurations.instance()
 __saveandload = SaveAndLoad()
 __database = DataBase()
+__translator = Translate()
 
-__date = "2024/05/27" #__saveandload.today_str
 
 __searcher = Search()
 
-#__programmed_search_on = __searcher.run_programmed_search()
-__programmed_search_on = True
+__date = __saveandload.today_str
+#__date = "2024/05/27"
+
+__programmed_search_on = __searcher.run_programmed_search()
+#__programmed_search_on = True
 
 while __programmed_search_on:
     __user = input('Introduce your username: ')
@@ -31,12 +35,18 @@ while __programmed_search_on:
             __selected, __rejected, __n_found = __searcher.run_search(__query, __user, is_programmed=True)
             __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
             print(f'{len(__selected)} selected out of {__n_found} found')
-            __selected_dics = __searcher.transform_article_list(__selected_clean) 
-            __rejected_dics = __searcher.transform_article_list(__rejected)
             
+            
+            __selected_dics = __searcher.transform_article_list(__selected_clean)
+            __rejected_dics = __searcher.transform_article_list(__rejected) 
+            __database.save_to_database(__selected_dics)
+            
+            for __art_dic in __selected_dics:
+                __art_dic['abstract'] = __translator.translate_abstract(__art_dic['abstract'])
+
             __results_dic[__query] = (__selected_dics, __n_found)
 
-            __database.save_to_database(__selected_dics)  
+             
             __database.save_to_database(__rejected_dics)
             print('Database updated')
         

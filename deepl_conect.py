@@ -14,3 +14,11 @@ class Translate:
         __sentence_sp = self.__translator.translate_text(sentence, target_lang = "ES")
 
         return __sentence_sp
+    
+    def translate_abstract(self, art_abstract):
+        if art_abstract != None:
+            try:
+               art_abstract = self.translate_to_sp(art_abstract)
+            except:
+               print('DeepL translation quota exceeded')
+        return art_abstract
