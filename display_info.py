@@ -35,6 +35,10 @@ class Display():
         search_on = st.button("Start search", type="primary")
         return search_on
     
+    def save_search_button(self):
+        save_search = st.checkbox("Save search", key='Save search')
+        return save_search
+    
     def history_buttons(self, user):
         clicked_buttons = []
         deleting_buttons = []
@@ -66,7 +70,7 @@ class Display():
         __art, __score, __pass = tup
         if __art != None:
             st.markdown(f"Article score: {__score}")
-            st.markdown(f"**{__art.title}**")
+            st.markdown(f":red[**{__art.title}**]")
             st.markdown(__art.authors_str)
             st.markdown(f"https://doi.org/{__art.doi}")
             if __art.abstract != None:
@@ -111,9 +115,9 @@ class Display():
 
     def display_search_info(self, query, n_found, sel_list):
         if sel_list != None:
-            st.markdown(f"*Articles selected for query '{query}': {len(sel_list)} out of {n_found}*")
+            st.markdown(f":green[*Articles selected for query '{query}': {len(sel_list)} out of {n_found}*]")
         else:
-            st.markdown(f"*No articles selected for query '{query}'*")
+            st.markdown(f":green[*No articles selected for query '{query}'*]")
 
     def __append_search_term(self, user, user_params):
         __new_search_term = st.text_input('Add a new search term')

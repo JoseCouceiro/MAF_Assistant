@@ -39,14 +39,13 @@ while __programmed_search_on:
             __selected_dics = __searcher.transform_article_list(__selected_clean)
             __rejected_dics = __searcher.transform_article_list(__rejected) 
             __database.save_to_database(__selected_dics)
+            __database.save_to_database(__rejected_dics)
+            print('Database updated')
             
             for __art_dic in __selected_dics:
                 __art_dic['abstract'] = __translator.translate_abstract(__art_dic['abstract'])
 
-            __results_dic[__query] = (__selected_dics, __n_found)
-             
-            __database.save_to_database(__rejected_dics)
-            print('Database updated')
+            __results_dic[__query] = (__selected_dics, __n_found)      
         
         __save_searches_dic = get_searches(__user)
         if __save_searches_dic:
