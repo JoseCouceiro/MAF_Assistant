@@ -6,7 +6,6 @@ class Classify():
     """
     Class that contains all the functions necessary to rate articles and give them a final score
     """
-
     def __from_countries_func(self, aff_set):
         """
         Function that takes a set of countries, checks if any country in the set is also in the list of countries of interest and returns a boolean accordingly

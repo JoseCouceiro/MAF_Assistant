@@ -36,7 +36,6 @@ while __programmed_search_on:
             __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
             print(f'{len(__selected)} selected out of {__n_found} found')
             
-            
             __selected_dics = __searcher.transform_article_list(__selected_clean)
             __rejected_dics = __searcher.transform_article_list(__rejected) 
             __database.save_to_database(__selected_dics)
@@ -45,7 +44,6 @@ while __programmed_search_on:
                 __art_dic['abstract'] = __translator.translate_abstract(__art_dic['abstract'])
 
             __results_dic[__query] = (__selected_dics, __n_found)
-
              
             __database.save_to_database(__rejected_dics)
             print('Database updated')
