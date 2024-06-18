@@ -14,10 +14,10 @@ class Search:
         self.__saveandload = SaveAndLoad()
         self.__config_data = self.__saveandload.load_config_file()
         
-    def __search_pubmed(self, query):
+    def __search_pubmed(self, query, end_date, start_date):
         pmids = self.__fetcher.pmids_for_query(
-            f'({query}[Title/Abstract]) AND ("{self.__params.start_date_str}"[Date - Publication] : "{self.__params.end_date_str}"[Date - Publication])')
-        print(f'({query}[Title/Abstract]) AND ("{self.__params.start_date_str}"[Date - Publication] : "{self.__params.end_date_str}"[Date - Publication])')
+            f'({query}[Title/Abstract]) AND ("{start_date}"[Date - Publication] : "{end_date}"[Date - Publication])')
+        print(f'({query}[Title/Abstract]) AND ("{start_date}"[Date - Publication] : "{end_date}"[Date - Publication])')
         return pmids
 
     def __fetch_articles(self, pmids_list, query, user, is_programmed):
@@ -54,9 +54,9 @@ class Search:
             transformed_art_list.append(__art_dic)
         return transformed_art_list
 
-    def run_search(self, query, user, is_programmed):
+    def run_search(self, query, user, is_programmed, end_date, start_date):
         print(query)
-        __pmids = self.__search_pubmed(query)
+        __pmids = self.__search_pubmed(query, end_date, start_date)
         __n_found = len(__pmids)
         print('Number of articles found: ', len(__pmids))
         __selected, __rejected = self.__fetch_articles(__pmids, query, user, is_programmed)

@@ -28,14 +28,17 @@ def main(key):
         __title_placeholder.empty()   
 
 def show_display(user, query_list):
-    tab1, tab2, tab3, tab4 = st.tabs(['Search results',
+    tab1, tab2, tab3, tab4 = st.tabs(['Search',
                                       'Search terms',
                                       'Classification parameters',
                                       'Results archive'])
     with tab1:
+        __end_date = st.date_input('Enter end date')
+        __end_date_str = str(__end_date).replace('-','_')
+        __start_date = st.date_input('Enter start date')
+        __start_date_str = str(__start_date).replace('-','_')
         __search_on = __displayer.search_button()
         __save_search = __displayer.save_search_button()
-        __date = '14/06/2024'
         while __search_on:
             print('Running search')
             __already_found = list()
@@ -43,8 +46,10 @@ def show_display(user, query_list):
             if len(query_list) == 0:
                 st.error('Please, add some search terms')
             for __query in query_list:
-                __selected, __rejected, __n_found = __searcher.run_search(__query, user, is_programmed=True)
+                __selected, __rejected, __n_found = __searcher.run_search(__query, user, is_programmed=True, end_date=__end_date_str, start_date=__start_date_str)
                 __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
+                #for __art, __score, __pass in __selected_clean:
+                #    __art.abstract = __translator.translate_abstract(__art.abstract)    
                 __displayer.display_search_info(__query, __n_found, __selected_clean)
                 try:
                     for __tup in __selected_clean:
@@ -66,10 +71,10 @@ def show_display(user, query_list):
 
             __save_searches_dic = get_searches(user)
             if __save_searches_dic:
-                __save_searches_dic[__date] = __results_dic
+                __save_searches_dic[__end_date_str] = __results_dic
             else:
                 __save_searches_dic = dict()
-                __save_searches_dic[__date] = __results_dic
+                __save_searches_dic[__end_date_str] = __results_dic
             save_searches(user, __save_searches_dic)
             
             print('Search Done')
