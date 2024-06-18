@@ -33,10 +33,10 @@ def show_display(user, query_list):
                                       'Classification parameters',
                                       'Results archive'])
     with tab1:
-        __end_date = st.date_input('Enter end date')
-        __end_date_str = str(__end_date).replace('-','_')
         __start_date = st.date_input('Enter start date')
-        __start_date_str = str(__start_date).replace('-','_')
+        __end_date = st.date_input('Enter end date')
+        __start_date_str = str(__start_date).replace('-','/')
+        __end_date_str = str(__end_date).replace('-','/')
         __search_on = __displayer.search_button()
         __save_search = __displayer.save_search_button()
         while __search_on:
@@ -46,7 +46,7 @@ def show_display(user, query_list):
             if len(query_list) == 0:
                 st.error('Please, add some search terms')
             for __query in query_list:
-                __selected, __rejected, __n_found = __searcher.run_search(__query, user, is_programmed=True, end_date=__end_date_str, start_date=__start_date_str)
+                __selected, __rejected, __n_found = __searcher.run_search(__query, user, is_programmed=True, start_date=__start_date_str, end_date=__end_date_str)
                 __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
                 #for __art, __score, __pass in __selected_clean:
                 #    __art.abstract = __translator.translate_abstract(__art.abstract)    
