@@ -48,8 +48,8 @@ def show_display(user, query_list):
             for __query in query_list:
                 __selected, __rejected, __n_found = __searcher.run_search(__query, user, is_programmed=True, start_date=__start_date_str, end_date=__end_date_str)
                 __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
-                #for __art, __score, __pass in __selected_clean:
-                #    __art.abstract = __translator.translate_abstract(__art.abstract)    
+                for __art, __score, __pass in __selected_clean:
+                    __art.abstract = __translator.translate_abstract(__art.abstract)
                 __displayer.display_search_info(__query, __n_found, __selected_clean)
                 try:
                     for __tup in __selected_clean:
@@ -63,10 +63,6 @@ def show_display(user, query_list):
                     __database.save_to_database(__selected_dics)
                     __database.save_to_database(__rejected_dics)
                     print('Database updated')
-            
-                    for __art_dic in __selected_dics:
-                        __art_dic['abstract'] = __translator.translate_abstract(__art_dic['abstract'])
-
                     __results_dic[__query] = (__selected_dics, __n_found)
 
             __save_searches_dic = get_searches(user)

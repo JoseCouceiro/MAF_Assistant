@@ -74,10 +74,8 @@ class Display():
             st.markdown(__art.authors_str)
             st.markdown(f"https://doi.org/{__art.doi}")
             if __art.abstract != None:
-                __splitted = self.__split_paragraphs(__art.abstract)
-                try:
-                    st.markdown(self.__transl.translate_to_sp(__splitted))
-                except:
+                __splitted = self.__split_paragraphs(__art.abstract[0])
+                if __art.abstract[1] == False:
                     st.error('DeepL translation quota exceeded')
                 st.markdown(__splitted)
             try:
@@ -101,6 +99,9 @@ class Display():
                 st.markdown(f"https://doi.org/{__art['doi']}")
                 if __art['abstract'] != None:
                     __splitted = self.__split_paragraphs(__art['abstract'])
+                    if 'translated' in __art.keys(): #remove this line once the database is up to date
+                        if __art['translated'] == False:
+                            st.error('DeepL translation quota exceeded')
                     st.markdown(__splitted)
                 try:
                     __src = FindIt(str(__art['pmid']))

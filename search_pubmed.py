@@ -47,10 +47,11 @@ class Search:
             __art_dic['title'] = __art.title
             __art_dic['authors_str'] = __art.authors_str
             __art_dic['doi'] = __art.doi
-            __art_dic['abstract'] = __art.abstract
+            __art_dic['abstract'] = __art.abstract[0]
             __art_dic['pmid'] = __art.pmid
             __art_dic['score'] = __score
             __art_dic['selected'] = __pass
+            __art_dic['translated'] = __art.abstract[1]
             transformed_art_list.append(__art_dic)
         return transformed_art_list
 

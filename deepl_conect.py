@@ -18,7 +18,10 @@ class Translate:
     def translate_abstract(self, art_abstract):
         if art_abstract != None:
             try:
-               art_abstract = self.translate_to_sp(art_abstract)
+                art_abstract_sp = self.translate_to_sp(art_abstract)
+                return art_abstract_sp, True
             except:
-               print('DeepL translation quota exceeded')
-        return art_abstract
+                return art_abstract, False
+            
+
+            

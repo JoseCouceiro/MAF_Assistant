@@ -18,8 +18,8 @@ __searcher = Search()
 __date = __saveandload.today_str
 #__date = "2024/05/27"
 
-__programmed_search_on = __searcher.run_programmed_search()
-#__programmed_search_on = True
+#__programmed_search_on = __searcher.run_programmed_search()
+__programmed_search_on = True
 
 while __programmed_search_on:
     __user = input('Introduce your username: ')
@@ -32,7 +32,7 @@ while __programmed_search_on:
         __results_dic = dict()
         __already_found = list()
         for __query in __query_list:
-            __selected, __rejected, __n_found = __searcher.run_search(__query, __user, is_programmed=True)
+            __selected, __rejected, __n_found = __searcher.run_search(__query, __user, is_programmed=True, start_date="2024/05/27", end_date='"2024/05/27"')
             __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
             print(f'{len(__selected)} selected out of {__n_found} found')
             
