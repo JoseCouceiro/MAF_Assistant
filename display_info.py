@@ -1,29 +1,31 @@
 import re
 import os
-from pathlib import Path
 import streamlit as st
 from metapub import FindIt
-from deepl_conect import Translate
-#from config import SaveAndLoad
 from user_params import get_params, save_params, get_searches, save_searches
 
 class Display():
-
-    def __init__(self):
-        self.__transl = Translate()
-        #self.__saveandload = SaveAndLoad()
-        #self.tab1, self.tab2, self.tab3, self.tab4 = st.tabs(['Search results', 'Search terms', 'Classification parameters', 'Results archive'])
-        #with self.tab4:
-            #self.col1, self.col2 = st.columns([1,4])
-        """ self.__config_data = self.__saveandload.load_config_file()
-        self.__searches_path = Path(os.path.join("resources", "saved_searches")) """
+    """
+    This class contains all the necessary functions to display information in the streamlit application.
+    """
 
     def display_title(self, user):
+        """
+        Function that displays the logo and name of the app.
+        It also displays greetings to the user by using the function 'is_new_user' and a disclaimer to make sure it is the correct user.
+        Input: username string.
+        Output: streamlit display.
+        """
         with st.sidebar:
             st.image(os.path.join('resources','images','logo.png'))
             self.is_new_user(user)        
 
     def is_new_user(self, user):
+        """
+        This function displays a disclaimer to inform the users whether they are new or not to the app.
+        Input: username string.
+        Output: streamlit display.
+        """
         params = get_params(user)
         if params:
             st.markdown(f"Welcome back :orange['{user}']")
@@ -32,21 +34,41 @@ class Display():
             st.markdown(f"Your username is not in our database, welcome to MAF Assistant, '{user}'!")
 
     def search_button(self):
+        """
+        Function that displays a button that allows the user to start a search.
+        Input: none.
+        Output: streamlit display.
+        """
         search_on = st.button("Start search", type="primary")
         return search_on
     
     def save_search_button(self):
+        """
+        Function that displays a checkbox that allows the user to save a search.
+        Input: none.
+        Output: streamlit display.
+        """
         save_search = st.checkbox("Save search", key='Save search')
         return save_search
     
     def history_buttons(self, user):
+        """
+        This functions displays a button and checkbox for every search saved in the database. The searches are retrieved using the 'get_searches' function.
+        When a button or checkbox is clicked, the corresponding search is saved to a list by its date (key).
+        Searches in the 'deleting_buttons' list are removed from the list retrieved from the database and the updated list is saved back to the database.
+        Searches saved in the list 'clicked_buttons' are returned by the function as a tuple containing both the entire search as a dictionary and the date as a string.
+        Input: username string.
+        Output: a tuple containing a dictionary and a string.
+        """
         clicked_buttons = []
         deleting_buttons = []
         __saved_searches = get_searches(user)
         if __saved_searches:
+            # Display buttons and checkboxes
             for __n, __key in enumerate(sorted(__saved_searches.keys())):
                 button = st.button(f"{__key.replace('_', '/')}")
                 checkbox = st.checkbox('Delete', key=f'checkbox_{__n}')
+                # Save clicked buttons and checkboxes to lists
                 if checkbox:
                     deleting_buttons.append(__key)
                     st.error("File '{}' deleted, uncheck the 'Delete' checkbox before continuing".format(__key.replace('_', '/')))
@@ -58,15 +80,35 @@ class Display():
                 save_searches(user, __saved_searches)
             # Return clicked filenames
             if len(clicked_buttons) != 0:
-                print(clicked_buttons[0])
                 return (__saved_searches[clicked_buttons[0]], clicked_buttons[0])
 
+    def display_search_info(self, query, n_found, sel_list):
+        """
+        Function that takes in a query, the number of articles found and the list of selected articles and displays that information for the user.
+        Input: string, integer, list.
+        Output: streamlist display.
+        """
+        if sel_list != None:
+            st.markdown(f":green[*Articles selected for query '{query}': {len(sel_list)} out of {n_found}*]")
+        else:
+            st.markdown(f":green[*No articles selected for query '{query}'*]")
+
     def __split_paragraphs(self, abst):
+        """
+        A function that takes a string as input and splits it into separate paragraphs at each occurrence of a word written entirely in uppercase.       
+        Input: string.
+        Output: string.
+        """
         pattern = r'\b([A-ZÁÉÍÓÚÜÑ\s]+\:)'
         splitted = re.split(pattern, abst)
         return '\n'.join(splitted)
     
     def display_results(self, tup):
+        """
+        This function takes in a tuple containing an article object, a score and a boolean, then displays this information using Streamlit.     
+        Input: a tuple containing an article object, an integer and a boolean.
+        Output: a Streamlit display.
+        """
         __art, __score, __pass = tup
         if __art != None:
             st.markdown(f"Article score: {__score}")
@@ -89,9 +131,15 @@ class Display():
             except:
                 st.markdown('No open access')
 
-    def display_history_results(self, dup):
-        for __query, __art_dup in dup[0].items():
-            st.markdown(f":green[*Articles selected for query '{__query}' on {dup[1]}: {len(__art_dup[0])} out of {__art_dup[1]}*]")
+    def display_history_results(self, tup):
+        """
+        This function takes in a tuple containing a query and an another tuple. This inner tuple contains a list of articles in dictionary format and an integer.
+        The function displays this information using Streamlit.
+        Input: a tuple containing a string an a tuple.
+        Output: a Streamlit display.
+        """
+        for __query, __art_dup in tup[0].items():
+            st.markdown(f":green[*Articles selected for query '{__query}' on {tup[1]}: {len(__art_dup[0])} out of {__art_dup[1]}*]")
             for __art in __art_dup[0]:
                 st.markdown(f"Article score: {__art['score']}")
                 st.markdown(f":red[**{__art['title']}**]")
@@ -114,31 +162,14 @@ class Display():
                 except:
                     st.markdown('No open access')
 
-    def display_search_info(self, query, n_found, sel_list):
-        if sel_list != None:
-            st.markdown(f":green[*Articles selected for query '{query}': {len(sel_list)} out of {n_found}*]")
-        else:
-            st.markdown(f":green[*No articles selected for query '{query}'*]")
-
-    def __append_search_term(self, user, user_params):
-        __new_search_term = st.text_input('Add a new search term')
-        if __new_search_term != "":
-            user_params['search_terms'].append(__new_search_term)
-            save_params(user, user_params)
-            st.text('Term saved, please refresh page to update list')
-
-    def __remove_search_term(self, user, user_params):
-        __term_removed = st.text_input('Remove a search term')
-        if __term_removed == "":
-            pass
-        elif __term_removed in user_params['search_terms']:          
-            user_params['search_terms'].remove(__term_removed)
-            save_params(user, user_params)
-            st.text('Term removed, please refresh page to update list')
-        else:
-            st.error(f'{__term_removed} is not in the list of search terms')    
-
     def show_search_terms(self, user):
+        """
+        Function that takes in a username as a string, searches the database for associated 'search terms' and displays the information using Streamlit.
+        If no search terms are found, the function creates an empty list.
+        The function then uses the functions 'append_search_term' and 'remove_search_term' to modify the database.
+        Input: a string.
+        Output: a Streamlit display.
+        """
         st.markdown('**Search terms**')
         __user_params = get_params(user)
         if __user_params:
@@ -154,20 +185,49 @@ class Display():
         self.__append_search_term(user, __user_params)
         self.__remove_search_term(user, __user_params)
 
-    def set_parameters(self, user, dic):
-        st.markdown('**Classification parameters**')
-        """ dic = {'query_in_title': 'The query is in the title',
-                'is_rct': 'There is an rct in the journal',
-                'made_in_spain' : 'The journal was made in Spain',
-                'is_meta_analysis' : 'The journal is a meta-analysis',
-                'from_countries' : 'The authors of the journal are from the countries of interest',
-                'is_case_report': 'The article is a case report',
-                'is_in_vitro': 'The article describes advances only in laboratory settings',
-                'not_in_english': 'The article is not in English',
-                'threshold' : 'The journal should score above this value'} """
-        
-        __user_params = get_params(user)
+    def __append_search_term(self, user, user_params):
+        """
+        This function accepts a username as a string and a dictionary of parameters. It then prompts for the input of new parameters.
+        If a new parameter is provided, it is saved to the database.
+        Input: a string and a dictionary.
+        """
+        __new_search_term = st.text_input('Add a new search term')
+        if __new_search_term != "":
+            user_params['search_terms'].append(__new_search_term)
+            save_params(user, user_params)
+            st.text('Term saved, please refresh page to update list')
 
+    def __remove_search_term(self, user, user_params):
+        """
+        This function accepts a username as a string and a dictionary of parameters. It then prompts for the input of a parameter to be deleted.
+        If the specified parameter provided exists in the database, it is removed.
+        Input: a string and a dictionary.
+        """
+        __term_removed = st.text_input('Remove a search term')
+        if __term_removed == "":
+            pass
+        elif __term_removed in user_params['search_terms']:          
+            user_params['search_terms'].remove(__term_removed)
+            save_params(user, user_params)
+            st.text('Term removed, please refresh page to update list')
+        else:
+            st.error(f'{__term_removed} is not in the list of search terms')    
+
+    def set_parameters(self, user, dic):
+        """
+        Function that prompts the user to set classification parameters and saves them to the database.
+        This function displays input fields to set values for classification parameters using Streamlit. It retrieves existing parameters 
+        for the user from the database. If parameters exist, it allows the user to update them. If not, it initializes 
+        the parameters and allows the user to set them. All changes are saved to the database.
+        Inputs:
+            user : str
+                The username for which the parameters are being set.
+            dic : dict
+                A dictionary mapping parameter keys to their descriptive names.
+        Returns: none
+        """
+        st.markdown('**Classification parameters**')        
+        __user_params = get_params(user)
         if __user_params:
             if 'selection_parameters' in __user_params.keys():
                 for key, value in __user_params['selection_parameters'].items():

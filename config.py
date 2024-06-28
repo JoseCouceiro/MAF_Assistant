@@ -12,7 +12,7 @@ def cfg_item(*items):
 
 class SaveAndLoad:
     """
-    This class contains the functions that save and load the config file
+    This class contains the functions that save and load the config file.
     """
     def __init__(self):
         self.__today = datetime.now()
@@ -21,7 +21,9 @@ class SaveAndLoad:
     
     def load_config_file(self):
         """
-        Function that opens the config file as a json and returns the data contained in it as a dictionary
+        Function that opens the config file as a json and returns the data contained in it as a dictionary.
+        Input: nothing.
+        Output: loads a json from file.
         """
         with open(self.__config_json_path, 'r') as __f:
             __data = json.load(__f)
@@ -29,7 +31,9 @@ class SaveAndLoad:
     
     def save_config_file(self, data):
         """
-        This function takes a dictionary and saves the data contained in it into the config file in json format 
+        This function takes a dictionary and saves the data contained in it into the config file in json format.
+        Input: a dictionary.
+        Output: json saved to file.
         """
         with open(self.__config_json_path, 'w') as __f:
             json.dump(data, __f, indent=4)
@@ -37,7 +41,7 @@ class SaveAndLoad:
 
 class DataBase:
     """
-    Class that saves the search results into a csv file. This class was written for app development puposes only
+    Class that saves the search results into a csv file. This class was written for app development puposes only.
     """
     def __init__(self):
         self.__database_path = os.path.join("resources", "database", 'database.csv')
@@ -45,7 +49,9 @@ class DataBase:
     
     def save_to_database(self, lst):
         """
-        Function that takes a list of dictionaries and saves the data contained in those dictionaries into a csv file
+        Function that takes a list of dictionaries and saves the data contained in those dictionaries into a csv file.
+        Input: a list of dictionaries.
+        Output: csv saved to file.
         """
         __csv_file = open(self.__database_path, 'a', newline='', encoding='utf-8')
         __writer = csv.DictWriter(__csv_file, self.__fieldnames)
@@ -55,7 +61,7 @@ class DataBase:
     
 class Config:
     """
-    This class generates an instance that allows loading data from the config file
+    This class generates an instance that allows loading data from the config file.
     """
     __instance = None
     __config_json_path, __config_json_filename = "resources.config", "config.json"  

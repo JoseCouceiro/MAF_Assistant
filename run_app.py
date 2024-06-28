@@ -1,14 +1,12 @@
 from display_info import Display
 from search_pubmed import Search
 from deepl_conect import Translate
-from config import DataBase
 from config import cfg_item
-from user_params import get_params, save_params, get_searches, save_searches
+from user_params import get_params, get_searches, save_searches
 import streamlit as st
 
 __displayer = Display()
 __searcher = Search()
-__database = DataBase()
 __translator = Translate()
 __class_params = cfg_item("classification_parameters")
 
@@ -46,7 +44,7 @@ def show_display(user, query_list):
             if len(query_list) == 0:
                 st.error('Please, add some search terms')
             for __query in query_list:
-                __selected, __rejected, __n_found = __searcher.run_search(__query, user, is_programmed=True, start_date=__start_date_str, end_date=__end_date_str)
+                __selected, __n_found = __searcher.run_search(__query, user, is_programmed=False, start_date=__start_date_str, end_date=__end_date_str)
                 __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
                 for __art, __score, __pass in __selected_clean:
                     __art.abstract = __translator.translate_abstract(__art.abstract)
@@ -59,9 +57,6 @@ def show_display(user, query_list):
                     
                 if __save_search:
                     __selected_dics = __searcher.transform_article_list(__selected_clean)
-                    __rejected_dics = __searcher.transform_article_list(__rejected) 
-                    __database.save_to_database(__selected_dics)
-                    __database.save_to_database(__rejected_dics)
                     print('Database updated')
                     __results_dic[__query] = (__selected_dics, __n_found)
 

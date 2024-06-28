@@ -29,11 +29,6 @@
         "uk",
         "usa"
     ],
-    "programmed_search": {
-        "programmed_search_done": false,
-        "day_of_search": 0,
-        "search_span": 7
-    },
     "classification_parameters": {
         "query_in_title": "The query is in the title",
         "is_rct": "There is an rct in the journal",
