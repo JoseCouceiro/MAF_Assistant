@@ -103,7 +103,7 @@ class Display():
         splitted = re.split(pattern, abst)
         return '\n'.join(splitted)
     
-    def display_results(self, tup):
+    def __display_results(self, tup):
         """
         This function takes in a tuple containing an article object, a score and a boolean, then displays this information using Streamlit.     
         Input: a tuple containing an article object, an integer and a boolean.
@@ -240,6 +240,39 @@ class Display():
                     new_value = st.text_input(f"{val}:", value=0)
                     __user_params['selection_parameters'][key] = int(new_value)
                     save_params(user, __user_params)
+
+    def set_date(self):
+        """
+        Prompts the user to enter a start date and an end date using Streamlit's date_input widget,
+        converts these dates to strings in the 'YYYY/MM/DD' format, and returns the formatted date strings.
+        Returns:
+            tuple: A tuple containing two strings:
+                - '__start_date_str' (str): The start date in 'YYYY/MM/DD' format.
+                - '__end_date_str' (str): The end date in 'YYYY/MM/DD' format.
+        """
+        __start_date = st.date_input('Enter start date')
+        __end_date = st.date_input('Enter end date')
+        __start_date_str = str(__start_date).replace('-','/')
+        __end_date_str = str(__end_date).replace('-','/')
+        return __start_date_str, __end_date_str
+    
+    def display_article_info(self, articles_list):
+        """
+        Displays information for selected articles.
+        This method iterates over a list of translated articles and displays their information using a 
+        private method. If an error occurs (e.g., the journal has already been selected in a different query),
+        it catches the exception and displays an error message.
+        Inputs:
+            article_list (list of tuples): A list of tuples, where each tuple contains:
+                - An article object.
+                - A score associated with the article.
+                - A pass/fail indicator associated with the article.
+        """
+        try:
+            for __tup in articles_list:
+                self.__display_results(__tup)
+        except:
+            st.write('Journal has already been selected in a different query')
 
 
 

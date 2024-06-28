@@ -210,7 +210,27 @@ def get_searches(user_id):
     finally:
         session.close()
     
-
+def add_search_to_database(user, end_date, results_dic):
+    """
+    Adds search results to the user's database of saved searches.
+    This function retrieves the existing saved searches for a user. If there are existing saved searches, 
+    it updates the dictionary with new search results associated with the provided end date. If no saved 
+    searches are found, it initializes a new dictionary and adds the new search results. The updated 
+    dictionary is then saved back to the database.
+    Parameters:
+        user (str): The identifier for the user whose search results are being saved.
+        end_date (str): The end date associated with the search results.
+        results_dic (dict): The dictionary containing the search results to be saved.
+    Returns:
+        None
+    """
+    __save_searches_dic = get_searches(user)
+    if __save_searches_dic:
+        __save_searches_dic[end_date] = results_dic
+    else:
+        __save_searches_dic = dict()
+        __save_searches_dic[end_date] = results_dic
+    save_searches(user, __save_searches_dic)
     
 
 

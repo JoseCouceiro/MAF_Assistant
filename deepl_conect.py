@@ -11,7 +11,7 @@ class Translate:
         self.__auth_key = cfg_item('keys', 'deepl')
         self.__translator = deepl.Translator(self.__auth_key)
         
-    def translate_to_sp(self, sentence):
+    def __translate_to_sp(self, sentence):
         """
         Function that translates a given string from English to Spanish.
         Input: a string in English.
@@ -21,7 +21,7 @@ class Translate:
 
         return __sentence_sp
     
-    def translate_abstract(self, art_abstract):
+    def __translate_abstract(self, art_abstract):
         """
         This function takes an article abstract in English and translates it to Spanish using the function 'translate_to_sp'.
         Sometimes the abstract is null, so the function checks it to prevent errors in the function 'translate_to_sp'.
@@ -31,10 +31,27 @@ class Translate:
         """
         if art_abstract != None:
             try:
-                art_abstract_sp = self.translate_to_sp(art_abstract)
+                art_abstract_sp = self.__translate_to_sp(art_abstract)
                 return art_abstract_sp, True
             except:
                 return art_abstract, False
+            
+    def translate_selected(self, selected):
+        """
+        Function that translates the abstracts of selected articles.
+        This method iterates over a list of selected articles, scores, and pass values. For each article, 
+        it translates the abstract using the '__translate_abstract' method and updates the article's abstract.
+        Input:
+            selected (list of tuples): A list of tuples, where each tuple contains:
+                - __art (object): An article object.
+                - __score (float): A score associated with the article.
+                - __pass (bool): A pass/fail indicator associated with the article.
+        Output:
+            list of tuples: The updated list of tuples with translated abstracts.
+        """
+        for __art, __score, __pass in selected:
+            __art.abstract = self.__translate_abstract(__art.abstract)
+        return selected
             
 
             
