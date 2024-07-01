@@ -51,10 +51,15 @@ Create a new conda environment with the command:
 conda create --name <YOUR_ENV> python==<YOUR_VERSION>
 ```
 
-Run the following command from inside the project's main folder:
+Activate the new conda environment:
+```bash
+conda activate <YOUR_ENV>
+```
+
+Run the following command from inside the project's main folder to install the required packages:
 
 ```bash
-~\anaconda3\envs\<YOUR_ENV>\python.exe -m pip install -r src/requirements.txt
+pip install -r requirements.txt
 ```
 
 ### Run the App
