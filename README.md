@@ -34,12 +34,38 @@ The main page consists of four tabs:
 
 ![image](https://github.com/JoseCouceiro/MAF_Assistant/assets/118387556/23325f04-beb8-4c6e-a649-960112b78b0b)
 
-  
 #### Results Archive Tab:
 
 **Functionality**: View saved searches. Clicking on a specific search displays the articles selected for that search.  
 **Options**: Searches can be deleted by using the 'Delete' checkbox.  
 
 ![image](https://github.com/JoseCouceiro/MAF_Assistant/assets/118387556/63e6ffb9-22f6-41c0-a74c-ca8f9cce12e4)
+
+## How to Run
+### Mount the Environment
+A requirements file for a conda environment can be found at "\journalrater\requirements.txt".
+
+Create a new conda environment with the command:
+
+```bash
+conda create --name <YOUR_ENV> python==<YOUR_VERSION>
+```
+
+Run the following command from inside the project's main folder:
+
+```bash
+~\anaconda3\envs\<YOUR_ENV>\python.exe -m pip install -r src/requirements.txt
+```
+
+### Run the App
+To run the application, use the command:
+
+```bash
+streamlit run drug_predictor.py
+```
+
+
+
+
 
 
