@@ -260,8 +260,7 @@ class Display():
         """
         Displays information for selected articles.
         This method iterates over a list of translated articles and displays their information using a 
-        private method. If an error occurs (e.g., the journal has already been selected in a different query),
-        it catches the exception and displays an error message.
+        private method. If an error occurs, it catches the exception and displays an error message.
         Inputs:
             article_list (list of tuples): A list of tuples, where each tuple contains:
                 - An article object.
@@ -272,7 +271,7 @@ class Display():
             for __tup in articles_list:
                 self.__display_results(__tup)
         except:
-            st.write('Journal has already been selected in a different query')
+            st.error('There was an error displaying article info')
 
 
 
