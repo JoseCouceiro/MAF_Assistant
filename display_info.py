@@ -116,8 +116,6 @@ class Display():
             st.markdown(__art.authors_str)
             st.markdown(f"https://doi.org/{__art.doi}")
             if __art.abstract != None:
-                print('Type: ', __art.abstract)
-                print('deepl textresult: ', __art.abstract[0])
                 __splitted = self.__split_paragraphs(__art.abstract[0])
                 if __art.abstract[1] == False:
                     st.error('DeepL translation quota exceeded')
@@ -269,13 +267,12 @@ class Display():
                 - A score associated with the article.
                 - A pass/fail indicator associated with the article.
         """
-        """ try:
+        try:
             for __tup in articles_list:
                 self.__display_results(__tup)
         except:
-            st.error('There was an error displaying article info') """
-        for __tup in articles_list:
-                self.__display_results(__tup)
+            st.error('There was an error displaying article info')
+        
 
 
 
