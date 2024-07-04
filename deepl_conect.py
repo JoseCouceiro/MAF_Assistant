@@ -32,9 +32,9 @@ class Translate:
         if art_abstract != None:
             try:
                 art_abstract_sp = self.__translate_to_sp(art_abstract)
-                return art_abstract_sp, True
+                return str(art_abstract_sp), True
             except:
-                return art_abstract, False
+                return str(art_abstract), False
             
     def translate_selected(self, selected):
         """
