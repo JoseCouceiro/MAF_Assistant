@@ -1,7 +1,6 @@
 from metapub import PubMedFetcher
 import streamlit as st
 from classify_articles import Classify
-from config import SaveAndLoad
 
 class Search:
     """
@@ -10,9 +9,7 @@ class Search:
 
     def __init__(self):
         self.__fetcher = PubMedFetcher()
-        self.__classifier = Classify()
-        self.__saveandload = SaveAndLoad()
-        self.__config_data = self.__saveandload.load_config_file()
+        self.__classifier = Classify()    
         
     def __search_pubmed(self, query, start_date, end_date):
         """
@@ -102,6 +99,7 @@ class Search:
             __art_dic['pmid'] = __art.pmid
             __art_dic['score'] = __score
             __art_dic['selected'] = __pass
+            __art_dic['chosen'] = False
             transformed_art_list.append(__art_dic)
         return transformed_art_list
 
