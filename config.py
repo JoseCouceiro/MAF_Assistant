@@ -45,7 +45,7 @@ class DataBase:
     """
     def __init__(self):
         self.__database_path = os.path.join("resources", "database", 'database.csv')
-        self.__fieldnames = ['title','authors_str','doi','abstract','pmid','score','selected','translated']
+        self.__fieldnames = ['title','authors_str','doi','abstract','pmid','score','selected','translated','chosen']
     
     def save_to_database(self, lst):
         """

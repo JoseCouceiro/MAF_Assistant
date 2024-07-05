@@ -1,8 +1,6 @@
 from config import Config
-from config import SaveAndLoad
 from config import DataBase
-from deepl_conect import Translate
-from user_params import save_searches, get_searches, get_params
+from user_params import get_params
 from search_pubmed import Search
 
 __configurations = Config()
