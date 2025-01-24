@@ -1,10 +1,12 @@
 from display_info import Display
 from search_pubmed import Search
 from deepl_conect import Translate
+from useroauth import Login
 from config import cfg_item
 from user_params import get_params, add_search_to_database
 import streamlit as st
 
+__loger = Login()
 __displayer = Display()
 __searcher = Search()
 __translator = Translate()
@@ -23,6 +25,8 @@ def main(key):
     Returns:
         None
     """
+
+    __loger.show_login_page()
     __title_placeholder = st.title('Welcome to MAF Assistant')
     __username_placeholder = st.empty()
     __user = __username_placeholder.text_input('Please, enter your username: ', key = key)
@@ -113,8 +117,6 @@ def show_display(user, query_list):
             if __saved_search:             
                 __displayer.display_history_results(__saved_search)
 
-if __name__ == '__main__':
-    main('first')
 
 
 
