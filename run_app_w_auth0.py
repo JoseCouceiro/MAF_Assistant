@@ -1,6 +1,7 @@
 from display_info import Display
 from search_pubmed import Search
 from deepl_conect import Translate
+from auth import login, logout
 from config import cfg_item
 from user_params import get_params, add_search_to_database
 import streamlit as st
@@ -25,6 +26,22 @@ def main(key):
     """
 
     __title_placeholder = st.title('Welcome to MAF Assistant')
+
+    if "user" not in st.session_state:
+        user_info = login()
+    else:
+        user_info = st.session_state["user"]
+    
+    if user_info:
+        st.sidebar.write(f"Logged in as: {user_info['name']}")
+        if st.sidebar.button("Logout"):
+            logout()
+    else:
+        st.sidebar.warning("Please log in to continue.")
+
+    if user_info:
+        show_display(user_info["email"], user_info.get("search_terms", []))
+
     __username_placeholder = st.empty()
     __user = __username_placeholder.text_input('Please, enter your username: ', key = key)
     if __user:
