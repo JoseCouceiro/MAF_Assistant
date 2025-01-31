@@ -27,20 +27,18 @@ def main(key):
 
     __title_placeholder = st.title('Welcome to MAF Assistant')
 
+    # Check if user is logged in
     if "user" not in st.session_state:
-        user_info = login()
+        st.sidebar.write("🔹 Please log in.")
+        user = login()
     else:
-        user_info = st.session_state["user"]
-    
-    if user_info:
-        st.sidebar.write(f"Logged in as: {user_info['name']}")
+        user = st.session_state["user"]
+
+    # Show user info if logged in
+    if user:
+        st.sidebar.write(f"✅ Logged in as: {user.get('name', 'Unknown')}")
         if st.sidebar.button("Logout"):
             logout()
-    else:
-        st.sidebar.warning("Please log in to continue.")
-
-    if user_info:
-        show_display(user_info["email"], user_info.get("search_terms", []))
 
     __username_placeholder = st.empty()
     __user = __username_placeholder.text_input('Please, enter your username: ', key = key)
@@ -131,7 +129,8 @@ def show_display(user, query_list):
             if __saved_search:             
                 __displayer.display_history_results(__saved_search)
 
-
+if __name__ == '__main__':
+    main('first')
 
 
 

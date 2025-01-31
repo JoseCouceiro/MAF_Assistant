@@ -1,20 +1,30 @@
 import streamlit as st
 from streamlit_auth0 import login_button
 
-# Configure Auth0
+# Auth0 Configuration
 AUTH0_DOMAIN = st.secrets('AUTH0_DOMAIN')" "
 AUTH0_CLIENT_ID = st.secrets('AUTH0_CLIENT_ID')" "
-AUTH0_CLIENT_SECRET = st.secrets('AUTH0_CLIENT_SECRET')" "
-
-""" auth0 = Auth0(
-    domain=AUTH0_DOMAIN,
-    client_id=AUTH0_CLIENT_ID,
-    client_secret=AUTH0_CLIENT_SECRET
-) """
 
 def login():
-    login_button(domain=AUTH0_DOMAIN, client_id=AUTH0_CLIENT_ID)
+    """
+    Displays the Auth0 login button and handles authentication.
+    """
+    user_info = login_button(domain=AUTH0_DOMAIN,
+                             client_id=AUTH0_CLIENT_ID)
+
+    if user_info:
+        st.session_state["user"] = user_info  # Store user in session state
+        st.success(f"✅ Logged in as {user_info.get('name', 'Unknown')}")
+        return user_info
+    else:
+        st.warning("🔹 Please log in to continue.")
+        return None
 
 def logout():
-    auth0.logout()
-    st.session_state.pop("user", None)
+    """
+    Logs the user out by clearing session state.
+    """
+    if "user" in st.session_state:
+        del st.session_state["user"]
+    st.success("✅ Logged out successfully! Refresh the page.")
+
