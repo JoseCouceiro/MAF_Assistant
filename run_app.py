@@ -23,7 +23,6 @@ def main(key):
     Returns:
         None
     """
-
     __title_placeholder = st.title('Welcome to MAF Assistant')
     __username_placeholder = st.empty()
     __user = __username_placeholder.text_input('Please, enter your username: ', key = key)
@@ -113,6 +112,16 @@ def show_display(user, query_list):
         with col2:
             if __saved_search:             
                 __displayer.display_history_results(__saved_search)
+
+if __name__ == '__main__':
+    main('first')
+
+
+
+
+
+
+
 
 
 
