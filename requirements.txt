@@ -6,3 +6,4 @@ SQLAlchemy==2.0.29
 SQLAlchemy.orm == 1.2.10
 mysql-connector-python == 8.4.0
 pymysql == 1.1.0
+streamlit-auth0 == 1.0.5

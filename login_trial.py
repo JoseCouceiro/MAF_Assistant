@@ -50,6 +50,8 @@ def get_user_info(access_token):
     headers = {"Authorization": f"Bearer {access_token}"}
     response = requests.get(userinfo_url, headers=headers)
     response.raise_for_status()
+    user_info = response.json()
+    print("User Info:", user_info)  # Debugging line
     return response.json()
 
 def main():
@@ -62,14 +64,15 @@ def main():
     # If logged in, display user info
     if st.session_state.user:
         user = st.session_state.user
-        st.write(f"Welcome, 'name'!")
-        st.write(f"Email: 'email'")
+        st.write(f"Welcome,  {user['name']}!")
+        st.write(f"Email:  {user['name']}")
         if st.button("Logout"):
             st.session_state.user = None
             st.rerun()
     else:
         # Handle OAuth callback
         query_params = st.experimental_get_query_params()
+        st.write(f"Query Params: {query_params}")  # Debugging line
         if "code" in query_params:
             auth_code = query_params["code"][0]
             token_info = get_auth0_token(auth_code)
@@ -79,6 +82,7 @@ def main():
         else:
             # Display login link
             login_url = login_with_auth0()
+            st.write(f"Login URL: {login_url}")  # Debugging line
             st.markdown(f"[Login with Auth0]({login_url})")
 
 if __name__ == "__main__":
