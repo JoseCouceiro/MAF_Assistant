@@ -1,4 +1,5 @@
 import deepl
+import streamlit as st
 from config import cfg_item
 
 class Translate:
@@ -8,7 +9,7 @@ class Translate:
     """
 
     def __init__(self):
-        self.__auth_key = cfg_item('keys', 'deepl')
+        self.__auth_key = st.secrets["deepl"]
         self.__translator = deepl.Translator(self.__auth_key)
         
     def __translate_to_sp(self, sentence):
