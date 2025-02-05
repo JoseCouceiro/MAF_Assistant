@@ -1,34 +1,45 @@
 import streamlit as st
-import auth  # Import the auth functions
-import urllib.parse
+import auth_one_tab
 
-# Handle authentication callback (Auth0 redirects here after login)
-query_params = st.query_params
-if "code" in query_params:
-    auth_code = query_params["code"]
-    token_data = auth.get_access_token(auth_code)
-    
-    if "access_token" in token_data:
-        access_token = token_data["access_token"]
-        user_info = auth.get_user_info(access_token)
-        st.session_state["user"] = user_info
-        st.session_state["access_token"] = access_token
-        # Clear the URL parameters after successful login
-        st.query_params.clear()
-
-# Display Login or Logout button
-
-
+# Streamlit UI
+st.title("Auth0 Login in a Separate Window")
 
 if "user" not in st.session_state:
-    st.title("🔑 Authentication")
-    login_url = auth.get_login_url()
-    st.markdown(f"[**Login with Auth0**]({login_url})", unsafe_allow_html=True)
+    st.session_state.user = None
+
+if st.session_state.user:
+    st.success(f"Logged in as {st.session_state.user['name']}")
+    st.image(st.session_state.user['picture'])
+    if st.button("Logout"):
+        st.session_state.user = None
+        st.rerun()
 else:
-    user = st.session_state["user"]
-    st.sidebar.write(f"✅ Logged in as: {user.get('name', 'Unknown')}")
-    logout_url = auth.get_logout_url()
-    st.sidebar.markdown(f"[**Logout**]({logout_url})", unsafe_allow_html=True)
+    login_url = auth_one_tab.get_login_url()
+
+    # JavaScript to open login in a new independent window
+    js_code = f"""
+    <script>
+        function openAuth0Login() {{
+            window.open("{login_url}", "Auth0 Login", "width=500,height=600,left=100,top=100");
+        }}
+    </script>
+    <button onclick="openAuth0Login()">Login with Auth0</button>
+    """
+
+    st.markdown(js_code, unsafe_allow_html=True)
+
+    auth_code = st.text_input("Paste the authorization code here:")
+
+    if auth_code:
+        tokens = auth_one_tab.get_tokens(auth_code)
+        if "access_token" in tokens:
+            user_info = auth_one_tab.get_user_info(tokens["access_token"])
+            st.session_state.user = user_info
+            st.rerun()
+        else:
+            st.error("Invalid authorization code")
+
+
 
     # Example: Show user profile
     from display_info import Display
@@ -58,7 +69,7 @@ else:
         """
         __title_placeholder = st.title('Welcome to MAF Assistant')
         __username_placeholder = st.empty()
-        __user = user['name']
+        __user = 'name'
         if __user:
             __username_placeholder.empty()
             __title_placeholder.empty()
