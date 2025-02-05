@@ -1,55 +1,43 @@
 import streamlit as st
-import auth_one_tab
+import auth
+from display_info import Display
 
-# Streamlit UI
-st.title("Auth0 Login in a Separate Window")
+# Handle authentication callback (Auth0 redirects here after login)
+query_params = st.query_params
+if "code" in query_params:
+    auth_code = query_params["code"]
+    token_data = auth.get_access_token(auth_code)
+    
+    if "access_token" in token_data:
+        access_token = token_data["access_token"]
+        user_info = auth.get_user_info(access_token)
+        st.session_state["user"] = user_info
+        st.session_state["access_token"] = access_token
+        # Clear the URL parameters after successful login
+        st.query_params.clear()
+
+# Display Login or Logout button
+__displayer = Display()
 
 if "user" not in st.session_state:
-    st.session_state.user = None
-
-if st.session_state.user:
-    st.success(f"Logged in as {st.session_state.user['name']}")
-    st.image(st.session_state.user['picture'])
-    if st.button("Logout"):
-        st.session_state.user = None
-        st.rerun()
+    st.title("🔑 Authentication")
+    login_url = auth.get_login_url()
+    st.markdown(f"[**Login with Auth0**]({login_url})", unsafe_allow_html=True)
 else:
-    login_url = auth_one_tab.get_login_url()
-
-    # JavaScript to open login in a new independent window
-    js_code = f"""
-    <script>
-        function openAuth0Login() {{
-            window.open("{login_url}", "Auth0 Login", "width=500,height=600,left=100,top=100");
-        }}
-    </script>
-    <button onclick="openAuth0Login()">Login with Auth0</button>
-    """
-
-    st.markdown(js_code, unsafe_allow_html=True)
-
-    auth_code = st.text_input("Paste the authorization code here:")
-
-    if auth_code:
-        tokens = auth_one_tab.get_tokens(auth_code)
-        if "access_token" in tokens:
-            user_info = auth_one_tab.get_user_info(tokens["access_token"])
-            st.session_state.user = user_info
-            st.rerun()
-        else:
-            st.error("Invalid authorization code")
-
-
+    __displayer.display_title()
+    user = st.session_state["user"]
+    st.sidebar.write(f"✅ Logged in as: {user.get('name', 'Unknown')}")
+    logout_url = auth.get_logout_url()
+    st.sidebar.markdown(f"[:blue[**Logout**]]({logout_url})", unsafe_allow_html=True)
 
     # Example: Show user profile
-    from display_info import Display
+
     from search_pubmed import Search
     from deepl_conect import Translate
     from config import cfg_item
     from user_params import get_params, add_search_to_database
     import streamlit as st
-
-    __displayer = Display()
+    
     __searcher = Search()
     __translator = Translate()
     __class_params = cfg_item("classification_parameters")
@@ -69,7 +57,7 @@ else:
         """
         __title_placeholder = st.title('Welcome to MAF Assistant')
         __username_placeholder = st.empty()
-        __user = 'name'
+        __user = user['name']
         if __user:
             __username_placeholder.empty()
             __title_placeholder.empty()
@@ -78,7 +66,7 @@ else:
                 __query_list = __user_params['search_terms']
             else:
                 __query_list = []
-            __displayer.display_title(__user)
+            
             show_display(__user, __query_list)
             
     def process_search(user, query_list, start_date, end_date, save_search):
@@ -159,20 +147,3 @@ else:
 
     if __name__ == '__main__':
         main('first')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

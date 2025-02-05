@@ -1,14 +1,11 @@
 import streamlit as st
 import requests
-import webbrowser
-import json
-import os
 import urllib.parse
 
 # 🔹 Auth0 Credentials (replace with your values)
-AUTH0_DOMAIN = st.secrets('AUTH0_DOMAIN')" "
-CLIENT_ID = st.secrets('AUTH0_CLIENT_ID')" "
-CLIENT_SECRET = st.secrets('AUTH0_CLIENT_SECRET')" "
+AUTH0_DOMAIN = st.secrets["AUTH0_DOMAIN"]
+CLIENT_ID = st.secrets["CLIENT_ID"]
+CLIENT_SECRET = st.secrets["CLIENT_SECRET"]
 REDIRECT_URI = "http://localhost:8501"  # Streamlit URL
 
 # 🔹 Auth0 Endpoints

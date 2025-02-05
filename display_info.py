@@ -9,7 +9,7 @@ class Display():
     This class contains all the necessary functions to display information in the streamlit application.
     """
 
-    def display_title(self, user):
+    def display_title(self): #user
         """
         Function that displays the logo and name of the app.
         It also displays greetings to the user by using the function 'is_new_user' and a disclaimer to make sure it is the correct user.
@@ -18,20 +18,20 @@ class Display():
         """
         with st.sidebar:
             st.image(os.path.join('resources','images','logo.png'))
-            self.is_new_user(user)        
+            #self.is_new_user(user)        
 
-    def is_new_user(self, user):
-        """
+    """ def is_new_user(self, user):
+        
         This function displays a disclaimer to inform the users whether they are new or not to the app.
         Input: username string.
         Output: streamlit display.
-        """
+        
         params = get_params(user)
         if params:
             st.markdown(f"Welcome back :orange['{user}']")
             st.markdown(f":orange[Not '{user}'?]: please, reload the page to enter your username")
         if not params:
-            st.markdown(f"Your username is not in our database, welcome to MAF Assistant, '{user}'!")
+            st.markdown(f"Your username is not in our database, welcome to MAF Assistant, '{user}'!") """
 
     def search_button(self):
         """
