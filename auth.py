@@ -6,7 +6,7 @@ import urllib.parse
 AUTH0_DOMAIN = st.secrets["AUTH0_DOMAIN"]
 CLIENT_ID = st.secrets["CLIENT_ID"]
 CLIENT_SECRET = st.secrets["CLIENT_SECRET"]
-REDIRECT_URI = "http://localhost:8501"  # Streamlit URL
+REDIRECT_URI = st.secrets['REDIRECT_URI']
 
 # 🔹 Auth0 Endpoints
 AUTH_URL = f"https://{AUTH0_DOMAIN}/authorize"
