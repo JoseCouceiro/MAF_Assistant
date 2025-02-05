@@ -1,4 +1,5 @@
 import json
+import streamlit as st
 from sqlalchemy import create_engine, Column, Integer, String, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -6,12 +7,11 @@ from sqlalchemy.exc import SQLAlchemyError
 from config import cfg_item
 
 # Set up database connection
-database_data = cfg_item("database")
-db_host = database_data['host']
-db_name = database_data['name']
-db_user = database_data['user']
-db_password = database_data['password']
-db_port_number = database_data['port_number']
+db_host = st.secrets['host']
+db_name = st.secrets['name']
+db_user = st.secrets['user']
+db_password = st.secrets['password']
+db_port_number = st.secrets['port_number']
 db_uri = f'mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port_number}/{db_name}'
 engine = create_engine(db_uri)
 Base= declarative_base()
