@@ -21,9 +21,10 @@ if "code" in query_params:
 __displayer = Display()
 
 if "user" not in st.session_state:
-    st.title("🔑 Authentication")
+    st.title("Welcome to MAF Assistant")
     login_url = auth.get_login_url()
-    st.markdown(f"[**Login with Auth0**]({login_url})", unsafe_allow_html=True)
+    __displayer.display_title()
+    st.markdown(f"🔑[**Login with Auth0**]({login_url})", unsafe_allow_html=True)
 else:
     __displayer.display_title()
     user = st.session_state["user"]
