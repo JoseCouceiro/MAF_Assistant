@@ -21,7 +21,6 @@ if "code" in query_params:
 __displayer = Display()
 
 if "user" not in st.session_state:
-    st.write(st.secrets['REDIRECT_URI'])
     st.title("🔑 Authentication")
     login_url = auth.get_login_url()
     st.markdown(f"[**Login with Auth0**]({login_url})", unsafe_allow_html=True)
