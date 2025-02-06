@@ -38,7 +38,7 @@ def main(user):
         
         show_display(user, __query_list)
         
-def process_search(user, query_list, start_date, end_date, save_search):
+def process_search(user, query_list, start_date, end_date, save_search, translate_abstracts):
     """
     Processes search queries for a user within a specified date range and optionally saves the search results.
 
@@ -65,7 +65,10 @@ def process_search(user, query_list, start_date, end_date, save_search):
     for __query in query_list:
         __selected, __n_found = __searcher.run_search(__query, user, is_programmed=False, start_date=start_date, end_date=end_date)
         __selected_clean, __already_found = __searcher.remove_duplicates(__selected, __already_found)
-        __selected_translated = __translator.translate_selected(__selected_clean)
+        if translate_abstracts:
+            __selected_translated = __translator.translate_selected(__selected_clean)
+        else:
+            __selected_translated = __translator.bypass_translation(__selected_clean)
         __displayer.display_search_info(__query, __n_found, __selected_translated)
         __displayer.display_article_info(__selected_translated)
         if save_search:
@@ -97,9 +100,10 @@ def show_display(user, query_list):
         __start_date_str, __end_date_str = __displayer.set_date()
         __search_on = __displayer.search_button()
         __save_search = __displayer.save_search_button()
+        __translate_abstracts = __displayer.translate_abstract_button()
         while __search_on:
             print('Running search')
-            process_search(user, query_list, __start_date_str, __end_date_str, __save_search) 
+            process_search(user, query_list, __start_date_str, __end_date_str, __save_search, __translate_abstracts) 
             print('Search Done')
             __search_on = False        
     with tab2:    

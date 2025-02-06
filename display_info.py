@@ -38,6 +38,15 @@ class Display():
         save_search = st.checkbox("Save search", key='Save search')
         return save_search
     
+    def translate_abstract_button(self):
+        """
+        Function that displays a checkbox that allows the user to save a search.
+        Input: none.
+        Output: streamlit display.
+        """
+        translate_abstract = st.checkbox("Translate abstracts to Spanish", key='Translate abstracts')
+        return translate_abstract
+    
     def history_buttons(self, user):
         """
         This functions displays a button and checkbox for every search saved in the database. The searches are retrieved using the 'get_searches' function.
@@ -144,7 +153,6 @@ class Display():
                         st.markdown(__src.url)
                     else:
                         st.markdown('No open access')
-                        # st.markdown(__src.reason)
                     st.markdown('\n')
                 except:
                     st.markdown('No open access')

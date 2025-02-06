@@ -53,6 +53,18 @@ class Translate:
         for __art, __score, __pass in selected:
             __art.abstract = self.__translate_abstract(__art.abstract)
         return selected
-            
-
-            
+    
+    def bypass_translation(self, selected):
+        """
+        Bypasses translation for selected articles by marking their abstracts as already translated.
+        Args:
+            selected (list of tuples): A list of tuples, where each tuple contains:
+                - __art (object): An article object with an `abstract` attribute.
+                - __score (any): A score value (unused in this function).
+                - __pass (any): A pass value (unused in this function).
+        Returns:
+            list of tuples: The updated list of tuples with untranslated abstracts but marked as translated.
+        """
+        for __art, __score, __pass in selected:
+            __art.abstract = (__art.abstract, True)
+        return selected
