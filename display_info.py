@@ -20,19 +20,6 @@ class Display():
             st.image(os.path.join('resources','images','logo.png'))
             #self.is_new_user(user)        
 
-    """ def is_new_user(self, user):
-        
-        This function displays a disclaimer to inform the users whether they are new or not to the app.
-        Input: username string.
-        Output: streamlit display.
-        
-        params = get_params(user)
-        if params:
-            st.markdown(f"Welcome back :orange['{user}']")
-            st.markdown(f":orange[Not '{user}'?]: please, reload the page to enter your username")
-        if not params:
-            st.markdown(f"Your username is not in our database, welcome to MAF Assistant, '{user}'!") """
-
     def search_button(self):
         """
         Function that displays a button that allows the user to start a search.
@@ -195,7 +182,7 @@ class Display():
         if __new_search_term != "":
             user_params['search_terms'].append(__new_search_term)
             save_params(user, user_params)
-            st.text('Term saved, please refresh page to update list')
+            st.text('Term saved, please rerun(R) page to update list')
 
     def __remove_search_term(self, user, user_params):
         """
@@ -209,7 +196,7 @@ class Display():
         elif __term_removed in user_params['search_terms']:          
             user_params['search_terms'].remove(__term_removed)
             save_params(user, user_params)
-            st.text('Term removed, please refresh page to update list')
+            st.text('Term removed, please rerun(R) page to update list')
         else:
             st.error(f'{__term_removed} is not in the list of search terms')    
 

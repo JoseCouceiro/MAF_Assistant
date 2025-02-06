@@ -33,4 +33,4 @@ else:
     st.sidebar.markdown(f"[:blue[**Logout**]]({logout_url})", unsafe_allow_html=True)
 
 # Run app
-    main(user['name'])
+    main(user['email'])
