@@ -117,6 +117,3 @@ def show_display(user, query_list):
         with col2:
             if __saved_search:             
                 __displayer.display_history_results(__saved_search)
-
-""" if __name__ == '__main__':
-    main('first') """
